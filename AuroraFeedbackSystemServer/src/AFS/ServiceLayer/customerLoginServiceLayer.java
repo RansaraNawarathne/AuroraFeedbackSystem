@@ -2,10 +2,10 @@
 package AFS.ServiceLayer;
 
 import AFS.DatabaseLayer.DatabaseConnection;
-import java.sql.Connection;
+import com.mysql.jdbc.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import com.mysql.jdbc.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +18,7 @@ public class customerLoginServiceLayer {
         try {
             String retData = "";
             conn = DatabaseConnection.getInstance().getConnection();
-            state = conn.createStatement();
+            state = (Statement) conn.createStatement();
             rsts = state.executeQuery("SELECT * FROM `reservation` WHERE `invNo` = '"+invNo+"';");
             while ( rsts.next() ) {
                 retData = rsts.getString("invNo");

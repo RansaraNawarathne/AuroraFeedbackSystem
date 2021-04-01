@@ -5,6 +5,7 @@
  */
 package AFS.FrontEnd;
 
+import AFS.FrontEnd.EventHandlers.TerminateEventHandler;
 import AFS.Utilities.*;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;

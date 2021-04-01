@@ -6,6 +6,7 @@
 package AFS.FrontEnd;
 
 import AFS.Interface.AFSInterface;
+import AFS.Interface.AFSRMIConnector;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -250,15 +251,12 @@ public class sendDriverEmail extends javax.swing.JFrame {
             String resMsg = txtRecMsg.getText();
             
             System.out.println("Starting submitting values to the server...");
-            AFSInterface ansSet1 = (AFSInterface) Naming.lookup("rmi://localhost/AFSServer2021");
-            ansSet1.sendEmail (recEmail, resSub, resMsg);
+            //AFSInterface ansSet1 = (AFSInterface) Naming.lookup("rmi://localhost/AFSServer2021");
+            AFSRMIConnector ansSet1 = new AFSRMIConnector();
+            ansSet1.afsconnector().sendEmail (recEmail, resSub, resMsg);
             System.out.println("Values are successfully send to the server....");
             new sendDriverEmail().setVisible(true);
             this.dispose();
-        } catch (NotBoundException ex) {
-            Logger.getLogger(submit.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(submit.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RemoteException ex) {
             Logger.getLogger(submit.class.getName()).log(Level.SEVERE, null, ex);
         }

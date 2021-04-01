@@ -5,7 +5,9 @@
  */
 package AFS.FrontEnd;
 
+import AFS.FrontEnd.EventHandlers.AdminLoginEventhandler;
 import AFS.Interface.AFSInterface;
+import AFS.Interface.AFSRMIConnector;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -259,8 +261,9 @@ public class adminLogin extends javax.swing.JFrame {
             boolean validationRes = false;
             uname = txtEmail.getText();
             password = txtPassword.getText().toString();
-            AFSInterface adminValidating = (AFSInterface) Naming.lookup("rmi://localhost/AFSServer2021");
-            validationRes = adminValidating.validateAdminLogin(uname, password);
+            //AFSInterface adminValidating = (AFSInterface) Naming.lookup("rmi://localhost/AFSServer2021");
+            AFSRMIConnector adminValidating = new AFSRMIConnector();
+            validationRes = adminValidating.afsconnector().validateAdminLogin(uname, password);
             if (validationRes == true ) {
                 System.out.println("Successfully Logged In!");
                 btnLogin.addActionListener(new AdminLoginEventhandler());
@@ -269,10 +272,6 @@ public class adminLogin extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Please Enter Valid Email And Passsword!", "Error!", 2);
             }
-        } catch (NotBoundException ex) {
-            Logger.getLogger(adminLogin.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(adminLogin.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RemoteException ex) {
             Logger.getLogger(adminLogin.class.getName()).log(Level.SEVERE, null, ex);
         }

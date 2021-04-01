@@ -5,6 +5,7 @@
  */
 package AFS.FrontEnd;
 
+import AFS.FrontEnd.EventHandlers.TerminateEventHandler;
 import AFS.Utilities.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -299,7 +300,7 @@ public class addNewVehicle extends javax.swing.JFrame {
             
             vehNumber = txtVehNo.getText();
             vehBrand = txtVeBrand.getText();
-            vehYOM = txtYom.getSelectedText();
+            vehYOM = txtYom.getText();
             name = txtName.getText();
             email = txtEmail.getText();
             conNumber = txtConNumber.getText();
@@ -310,10 +311,14 @@ public class addNewVehicle extends javax.swing.JFrame {
             }
             if ( vehBrand.trim().isEmpty() ) {
                 throw new VehicleBrandNullException();
-            }
-            yom = Integer.parseInt(vehYOM);
-            if ( ( vehYOM.trim().isEmpty() ) || ( yom < cYear ) ) {
+            }          
+            if ( vehYOM.trim().isEmpty() ) {
                 throw new vehicleYOMNullException();
+            } else {
+                yom = Integer.parseInt(vehYOM);
+                if ( yom > cYear ) {
+                    throw new vehicleYOMNullException();
+                }
             }
             if ( name.trim().isEmpty() ) {
                 throw new NameNullValueException();
@@ -341,6 +346,8 @@ public class addNewVehicle extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex6.getLocalizedMessage(), "Error!", 2);
         } catch (AddressNullValueException ex7) {
             JOptionPane.showMessageDialog(this, ex7.getLocalizedMessage(), "Error!", 2);
+        }  catch (NumberFormatException ex8) {
+            JOptionPane.showMessageDialog(this, "Please enter valid data into the fields!", "Error!", 2);
         }
     }//GEN-LAST:event_btnAddVehActionPerformed
 

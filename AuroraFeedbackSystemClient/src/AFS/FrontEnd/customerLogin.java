@@ -6,6 +6,7 @@
 package AFS.FrontEnd;
 
 import AFS.Interface.AFSInterface;
+import AFS.Interface.AFSRMIConnector;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -231,12 +232,13 @@ public class customerLogin extends javax.swing.JFrame {
             String invNo = "";
             String cookieVal = "";
             invNo = txtInvoiceNum.getText();
-            AFSInterface userValidating = (AFSInterface) Naming.lookup("rmi://localhost/AFSServer2021");
-            finalVal = userValidating.validateInvoiceNo (invNo);
+            //AFSInterface userValidating = (AFSInterface) Naming.lookup("rmi://localhost/AFSServer2021");
+            AFSRMIConnector userValidating = new AFSRMIConnector();          
+            finalVal = userValidating.afsconnector().validateInvoiceNo (invNo);
             System.out.println("Values are successfully send to the server....");
             if ( finalVal == true ) {
                 System.out.println("Successfully Logged In!");      
-                cookieVal = userValidating.createCookie(invNo);
+                cookieVal = userValidating.afsconnector().createCookie(invNo);
                 System.out.println("Cookie Value: "+cookieVal);
                 CreateCookie (cookieVal);
                 new question1(0).setVisible(true);
@@ -245,10 +247,6 @@ public class customerLogin extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Please Enter Valid Invoice Number!", "Error!", 2);
                 //txtInvoiceNum.setText("");
             }
-        } catch (NotBoundException ex) {
-            Logger.getLogger(customerLogin.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(customerLogin.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RemoteException ex) {
             Logger.getLogger(customerLogin.class.getName()).log(Level.SEVERE, null, ex);
         }

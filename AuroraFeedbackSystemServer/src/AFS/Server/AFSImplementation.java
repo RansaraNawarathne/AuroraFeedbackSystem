@@ -6,15 +6,15 @@
 package AFS.Server;
 
 import AFS.Interface.AFSInterface;
-import AFS.Models.question;
+import AFS.Models.reservation;
 import AFS.Models.result;
 import AFS.ServiceLayer.AFSEmailService;
 import AFS.ServiceLayer.adminLoginServiceLayer;
 import AFS.ServiceLayer.customerLoginServiceLayer;
+import AFS.ServiceLayer.reservationServiceLayer;
 import AFS.ServiceLayer.resultServiceLayer;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Vector;
 
 /**
  *
@@ -44,6 +44,15 @@ public class AFSImplementation extends UnicastRemoteObject implements AFSInterfa
          storedCookieValue = invNum+": "+Math.random();
          return storedCookieValue;
      }
+     
+    @Override
+    public boolean getReservation(reservation resv) throws RemoteException {
+        reservationServiceLayer resvsl = new reservationServiceLayer();
+        boolean dbresponse = false;
+        dbresponse = resvsl.saveReservation(resv);
+        return dbresponse;
+    }
+     
      @Override
      public boolean getAnswer ( result[] resultObjArray, String invID ) throws RemoteException {
          resultServiceLayer rstsl = new resultServiceLayer();
@@ -65,5 +74,5 @@ public class AFSImplementation extends UnicastRemoteObject implements AFSInterfa
          val = eml.sendMail();
          System.out.println("Eamil successfully sent! " + val);
      }
-     
+
 }

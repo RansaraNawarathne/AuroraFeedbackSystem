@@ -1,5 +1,5 @@
 
-package AFS.FrontEnd;
+package AFS.FrontEnd.EventHandlers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

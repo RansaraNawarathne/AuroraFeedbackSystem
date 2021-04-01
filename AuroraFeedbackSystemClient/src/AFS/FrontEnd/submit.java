@@ -6,6 +6,7 @@
 package AFS.FrontEnd;
 
 import AFS.Interface.AFSInterface;
+import AFS.Interface.AFSRMIConnector;
 import AFS.Models.result;
 import java.io.File;
 import java.io.FileInputStream;
@@ -172,14 +173,15 @@ public class submit extends javax.swing.JFrame {
             
             //Sending values to the server
             System.out.println("Starting submitting values to the server...");
-            AFSInterface ansSet1 = (AFSInterface) Naming.lookup("rmi://localhost/AFSServer2021");
+            //AFSInterface ansSet1 = (AFSInterface) Naming.lookup("rmi://localhost/AFSServer2021");
+            AFSRMIConnector ansSet1 = new AFSRMIConnector();
             boolean SubStatus = false;
-            SubStatus = ansSet1.getAnswer(resultObjArray, invNo);
+            SubStatus = ansSet1.afsconnector().getAnswer(resultObjArray, invNo);
             if ( SubStatus == true ) {
                 System.out.println("Values are successfully send to the server....");
                 JOptionPane.showMessageDialog(this, "Responses are successfully saved!", "Status", 1);
             } else {
-                JOptionPane.showMessageDialog(this, "Responses are failed to saved!", "Status", 2);
+                JOptionPane.showMessageDialog(this, "Failed to saved responses!", "Error!", 2);
             }
             
             //Reset Cookie value
@@ -197,8 +199,6 @@ public class submit extends javax.swing.JFrame {
             
             new customerLogin().setVisible(true);
             this.dispose();
-        } catch (NotBoundException ex) {
-            Logger.getLogger(submit.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
             Logger.getLogger(submit.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RemoteException ex) {
