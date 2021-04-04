@@ -8,6 +8,7 @@ package AFS.Server;
 import AFS.Interface.AFSInterface;
 import AFS.Models.reservation;
 import AFS.Models.result;
+import AFS.ServiceLayer.AFSChartGenerator;
 import AFS.ServiceLayer.AFSEmailService;
 import AFS.ServiceLayer.adminLoginServiceLayer;
 import AFS.ServiceLayer.customerLoginServiceLayer;
@@ -63,6 +64,13 @@ public class AFSImplementation extends UnicastRemoteObject implements AFSInterfa
          boolean dbresponse = false;
          dbresponse = rstsl.saveResponse (resultObjArray, invID);
          return dbresponse;
+     }
+     @Override
+     public String createChart (String cType, int qnum ) throws RemoteException {
+         String chartUrl = "";
+         AFSChartGenerator chart = new AFSChartGenerator();
+         chartUrl = chart.generateChart (cType, qnum);
+         return chartUrl;
      }
      @Override
      public void sendEmail (String recEmail, String resSub, String resMsg) throws RemoteException {

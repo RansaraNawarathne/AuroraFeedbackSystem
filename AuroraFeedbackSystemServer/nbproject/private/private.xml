@@ -3,17 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/Server/AFSImplementation.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/Models/result.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/ServiceLayer/AFSChartService.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/Models/reservation.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/ServiceLayer/resultServiceLayer.java</file>
             <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/Interface/AFSInterface.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/DatabaseLayer/DatabaseConnection.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/ServiceLayer/reservationServiceLayer.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/ServiceLayer/AFSEmailService.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/ServiceLayer/adminLoginServiceLayer.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/ServiceLayer/customerLoginServiceLayer.java</file>
+            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/ServiceLayer/AFSChartGenerator.java</file>
         </group>
     </open-files>
 </project-private>

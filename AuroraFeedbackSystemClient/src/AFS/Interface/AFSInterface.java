@@ -21,5 +21,6 @@ public interface AFSInterface extends Remote {
     public String createCookie (String invNum) throws RemoteException;
     public boolean getReservation ( reservation resv ) throws RemoteException;
     public boolean getAnswer ( result[] resultObjArray, String invID ) throws RemoteException;
+    public String createChart (String cType, int qnum ) throws RemoteException;
     public void sendEmail (String recEmail, String resSub, String resMsg) throws RemoteException;
 }
