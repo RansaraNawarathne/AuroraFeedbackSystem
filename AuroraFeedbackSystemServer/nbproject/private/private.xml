@@ -3,7 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/Server/AFSImplementation.java</file>
             <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/Interface/AFSInterface.java</file>
+            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/Models/analytic.java</file>
+            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/ServiceLayer/analyticServiceLayer.java</file>
             <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/ServiceLayer/AFSChartGenerator.java</file>
         </group>
     </open-files>

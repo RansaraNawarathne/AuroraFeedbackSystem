@@ -11,6 +11,7 @@ import AFS.Models.result;
 import AFS.ServiceLayer.AFSChartGenerator;
 import AFS.ServiceLayer.AFSEmailService;
 import AFS.ServiceLayer.adminLoginServiceLayer;
+import AFS.ServiceLayer.analyticServiceLayer;
 import AFS.ServiceLayer.customerLoginServiceLayer;
 import AFS.ServiceLayer.reservationServiceLayer;
 import AFS.ServiceLayer.resultServiceLayer;
@@ -64,6 +65,13 @@ public class AFSImplementation extends UnicastRemoteObject implements AFSInterfa
          boolean dbresponse = false;
          dbresponse = rstsl.saveResponse (resultObjArray, invID);
          return dbresponse;
+     }
+     
+     @Override
+     public boolean analyseData () throws RemoteException {
+         boolean status = false;
+         status = analyticServiceLayer.analyseProcess();
+         return status;
      }
      @Override
      public String createChart (String cType, int qnum ) throws RemoteException {

@@ -188,7 +188,7 @@ public class question6 extends javax.swing.JFrame {
         
         if ( btnSAgree.isSelected() ) {
             ansStatus = true;
-            ansValue = "Strongly Agree";
+            ansValue = "Strongly agree";
         } else if ( btnAgree.isSelected() ) {
             ansStatus = true;
             ansValue = "Agree"; 
@@ -197,7 +197,7 @@ public class question6 extends javax.swing.JFrame {
             ansValue = "Disagree";
         } else if ( btnSDisagree.isSelected() ) {
             ansStatus = true;
-            ansValue = "Strongly Disagree";
+            ansValue = "Strongly disagree";
         } else {
             ansStatus = false;
         }

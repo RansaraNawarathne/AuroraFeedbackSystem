@@ -169,6 +169,9 @@ public class viewDriverPerformance extends javax.swing.JFrame {
             BufferedImage chartimg = null;
             AFSRMIConnector generateChart = new AFSRMIConnector();
             charturl = generateChart.afsconnector().createChart("bar", 2);
+            
+            System.out.println("Analysing status: "+generateChart.afsconnector().analyseData());
+            
             System.out.println("Chart URL: " +charturl);
             URL cUrl = new URL(charturl);
             chartimg = ImageIO.read(cUrl);
