@@ -6,6 +6,7 @@
 package AFS.Server;
 
 import AFS.Interface.AFSInterface;
+import AFS.Models.driver;
 import AFS.Models.reservation;
 import AFS.Models.result;
 import AFS.ServiceLayer.AFSChartGenerator;
@@ -13,6 +14,7 @@ import AFS.ServiceLayer.AFSEmailService;
 import AFS.ServiceLayer.adminLoginServiceLayer;
 import AFS.ServiceLayer.analyticServiceLayer;
 import AFS.ServiceLayer.customerLoginServiceLayer;
+import AFS.ServiceLayer.driverServiceLayer;
 import AFS.ServiceLayer.reservationServiceLayer;
 import AFS.ServiceLayer.resultServiceLayer;
 import java.rmi.RemoteException;
@@ -91,4 +93,35 @@ public class AFSImplementation extends UnicastRemoteObject implements AFSInterfa
          System.out.println("Eamil successfully sent! " + val);
      }
 
+     @Override
+     public boolean addNewDriver ( driver drv ) throws RemoteException {
+         boolean stateRes = false;
+         driverServiceLayer drvsvl = new driverServiceLayer();
+         stateRes = drvsvl.saveDriver ( drv );
+         return stateRes;
+     }
+     
+     @Override
+     public driver searchdriver ( String email ) throws RemoteException {
+         driver drv = null;
+         driverServiceLayer drvsvl1 = new driverServiceLayer();
+         drv = drvsvl1.searchDriver ( email );
+         return drv;
+     }
+     
+     @Override
+     public boolean updateDriver ( String email, driver drv1 ) throws RemoteException {
+         boolean stateRes = false;
+         driverServiceLayer drvsvl2 = new driverServiceLayer();
+         stateRes = drvsvl2.editDriver ( email, drv1 );
+         return stateRes;
+     }
+     
+     @Override
+     public boolean deleteDriver ( String email ) throws RemoteException {
+         boolean stateRes = false;
+         driverServiceLayer drvsvl3 = new driverServiceLayer();
+         stateRes = drvsvl3.deleteDriver ( email );
+         return stateRes;
+     }
 }

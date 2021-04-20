@@ -4,7 +4,7 @@ package AFS.ServiceLayer;
 import AFS.DatabaseLayer.DatabaseConnection;
 import AFS.Models.question;
 import com.mysql.jdbc.Connection;
-import java.sql.ResultSet;
+import com.mysql.jdbc.ResultSetImpl;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -13,13 +13,13 @@ import java.util.logging.Logger;
 public class questionServiceLayer {
     private static Connection conn;
     private static Statement state;
-    private static ResultSet rsts;
+    private static ResultSetImpl rsts;
     
     public static question retrieveQuestions ( int qno ) {
         try {
             conn = DatabaseConnection.getInstance().getConnection();
             state = conn.createStatement();
-            rsts = state.executeQuery("SELECT * FROM `questions` WHERE `qno` = "+qno+";");
+            rsts = (ResultSetImpl) state.executeQuery("SELECT * FROM `questions` WHERE `qno` = "+qno+";");
             
             question ques = null;
             while (rsts.next()) {

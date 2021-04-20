@@ -5,6 +5,7 @@
  */
 package AFS.Interface;
 
+import AFS.Models.driver;
 import AFS.Models.question;
 import AFS.Models.reservation;
 import AFS.Models.result;
@@ -24,4 +25,8 @@ public interface AFSInterface extends Remote {
     public boolean analyseData () throws RemoteException;
     public String createChart (String cType, int qnum ) throws RemoteException;
     public void sendEmail (String recEmail, String resSub, String resMsg) throws RemoteException;
+    public boolean addNewDriver ( driver drv ) throws RemoteException;
+    public driver searchdriver ( String eamil ) throws RemoteException;
+    public boolean updateDriver ( String email, driver drv1 ) throws RemoteException;
+    public boolean deleteDriver ( String email ) throws RemoteException;
 }

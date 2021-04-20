@@ -1,4 +1,4 @@
-
+//Question modal class
 package AFS.Models;
 
 import java.io.Serializable;

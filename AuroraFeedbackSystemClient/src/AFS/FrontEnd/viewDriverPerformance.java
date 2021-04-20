@@ -41,11 +41,28 @@ public class viewDriverPerformance extends javax.swing.JFrame {
             Logger.getLogger(viewDriverPerformance.class.getName()).log(Level.SEVERE, null, ex);
         }
         if ( loadStatus == true ) {
-            lstUpdate = lastUpdate();
-            ImageIcon chr = new ImageIcon("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart2.png");
-            lblChart.setIcon(chr);
-            lblLastUpdate.setText("Last Update: "+lstUpdate);
-            chr = null;
+            try {
+                String charturl = "";
+                BufferedImage chartimg = null;
+                charturl = generateChart.afsconnector().createChart("bar", 2);
+                System.out.println("Chart URL: " +charturl);
+                URL cUrl = new URL(charturl);
+                System.out.println("Test1");
+                chartimg = ImageIO.read(cUrl);
+                System.out.println("Test2");
+                ImageIO.write(chartimg, "png",new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart2.png"));
+                lstUpdate = lastUpdate();
+                ImageIcon chr = new ImageIcon("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart2.png");
+                lblChart.setIcon(chr);
+                lblLastUpdate.setText("Last Update: "+lstUpdate);
+                chr = null;
+            } catch (RemoteException ex) {
+                Logger.getLogger(viewDriverPerformance.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(viewDriverPerformance.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(viewDriverPerformance.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Failedd to analysed data!", "Error!", 2);
             lblLastUpdate.setText("Last Update: ");
@@ -66,6 +83,7 @@ public class viewDriverPerformance extends javax.swing.JFrame {
         lblChart = new javax.swing.JLabel();
         comboBoxQNum = new javax.swing.JComboBox<>();
         lblLastUpdate = new javax.swing.JLabel();
+        btnMainMenu = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -90,6 +108,14 @@ public class viewDriverPerformance extends javax.swing.JFrame {
         lblLastUpdate.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblLastUpdate.setText("Last Update: ");
 
+        btnMainMenu.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnMainMenu.setText("Main Menu");
+        btnMainMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainMenuActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -102,7 +128,8 @@ public class viewDriverPerformance extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnGenerateChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboBoxQNum, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(comboBoxQNum, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnMainMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(45, 45, 45))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(lblLastUpdate)
@@ -117,7 +144,9 @@ public class viewDriverPerformance extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(comboBoxQNum, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnGenerateChart)))
+                        .addComponent(btnGenerateChart)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnMainMenu)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(lblLastUpdate)
                 .addContainerGap())
@@ -220,15 +249,10 @@ public class viewDriverPerformance extends javax.swing.JFrame {
             charturl = generateChart.afsconnector().createChart("bar", qno);
             System.out.println("Chart URL: " +charturl);
             URL cUrl = new URL(charturl);
-            System.out.println("Test1");
             chartimg = ImageIO.read(cUrl);
-            System.out.println("Test2");
             ImageIO.write(chartimg, "png",new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart"+qno+".png"));
-            System.out.println("Test3");
             ImageIcon chr = new ImageIcon("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart"+qno+".png");
-            System.out.println("Test4");
             lblChart.setIcon(chr);
-            System.out.println("Test5");
             lblLastUpdate.setText("Last Update: "+lstUpdate);
             }  else {
             JOptionPane.showMessageDialog(this, "Failedd to analysed data!", "Error!", 2);
@@ -253,6 +277,12 @@ public class viewDriverPerformance extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jLabel9MouseClicked
+
+    private void btnMainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainMenuActionPerformed
+        // TODO add your handling code here:
+        new adminHome().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnMainMenuActionPerformed
 
     public String lastUpdate () {
         String cDate = "";
@@ -297,6 +327,7 @@ public class viewDriverPerformance extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerateChart;
+    private javax.swing.JButton btnMainMenu;
     private javax.swing.JComboBox<String> comboBoxQNum;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

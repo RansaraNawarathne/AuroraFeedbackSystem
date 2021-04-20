@@ -279,7 +279,9 @@ public class addNewVehicle extends javax.swing.JFrame {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
-        btnCancel.addActionListener(new TerminateEventHandler());
+        //btnCancel.addActionListener(new TerminateEventHandler());
+        new adminHome().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnAddVehActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddVehActionPerformed

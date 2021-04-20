@@ -1,7 +1,9 @@
-
+//Driver modal class
 package AFS.Models;
 
-public class driver {
+import java.io.Serializable;
+
+public class driver implements Serializable {
     private String email;
     private String name;
     private int age;

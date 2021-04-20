@@ -5,8 +5,8 @@ import AFS.DatabaseLayer.DatabaseConnection;
 import AFS.Models.analytic;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.ResultSetImpl;
 import com.mysql.jdbc.Statement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,13 +15,13 @@ public class analyticServiceLayer {
     private static Connection conn;
     private static Statement state;
     private static PreparedStatement prestate;
-    private static ResultSet rsts;
+    private static ResultSetImpl rsts;
     
     public static analytic retrieveAnalyticData (int qno) {
         try {
             conn = DatabaseConnection.getInstance().getConnection();
             state = (Statement) conn.createStatement();
-            rsts = state.executeQuery("SELECT * FROM `analysed` WHERE `questionNo` = "+qno+";");
+            rsts = (ResultSetImpl) state.executeQuery("SELECT * FROM `analysed` WHERE `questionNo` = "+qno+";");
             
             analytic res = null;
             
@@ -107,7 +107,7 @@ public class analyticServiceLayer {
             String tempCount = "";
             conn = DatabaseConnection.getInstance().getConnection();
             state = (Statement) conn.createStatement();
-            rsts = state.executeQuery("SELECT COUNT(CASE WHEN `question1` BETWEEN 16 AND 30 THEN 1 END) FROM `response`;");
+            rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(CASE WHEN `question1` BETWEEN 16 AND 30 THEN 1 END) FROM `response`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -120,7 +120,7 @@ public class analyticServiceLayer {
                     rsts = null;
                     
                     
-                    rsts = state.executeQuery("SELECT COUNT(CASE WHEN `question1` BETWEEN 31 AND 40 THEN 1 END) FROM `response`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(CASE WHEN `question1` BETWEEN 31 AND 40 THEN 1 END) FROM `response`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -132,7 +132,7 @@ public class analyticServiceLayer {
                     tempCount = "";
                     rsts = null;
                     
-                    rsts = state.executeQuery("SELECT COUNT(CASE WHEN `question1` BETWEEN 41 AND 60 THEN 1 END) FROM `response`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(CASE WHEN `question1` BETWEEN 41 AND 60 THEN 1 END) FROM `response`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -144,7 +144,7 @@ public class analyticServiceLayer {
                     tempCount = "";
                     rsts = null;
                     
-                    rsts = state.executeQuery("SELECT COUNT(CASE WHEN `question1` BETWEEN 61 AND 80 THEN 1 END) FROM `response`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(CASE WHEN `question1` BETWEEN 61 AND 80 THEN 1 END) FROM `response`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -172,7 +172,7 @@ public class analyticServiceLayer {
             String tempCount = "";
             conn = DatabaseConnection.getInstance().getConnection();
             state = (Statement) conn.createStatement();
-            rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question2` = 'Punctual' GROUP BY `question2`;");
+            rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question2` = 'Punctual' GROUP BY `question2`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -189,7 +189,7 @@ public class analyticServiceLayer {
                     rsts = null;
                     
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question2` = 'Slightly late' GROUP BY `question2`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question2` = 'Slightly late' GROUP BY `question2`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -205,7 +205,7 @@ public class analyticServiceLayer {
                     tempCount = "";
                     rsts = null;
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question2` = 'Late' GROUP BY `question2`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question2` = 'Late' GROUP BY `question2`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -221,7 +221,7 @@ public class analyticServiceLayer {
                     tempCount = "";
                     rsts = null;
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question2` = 'Extremely late' GROUP BY `question2`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question2` = 'Extremely late' GROUP BY `question2`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -253,7 +253,7 @@ public class analyticServiceLayer {
             String tempCount = "";
             conn = DatabaseConnection.getInstance().getConnection();
             state = (Statement) conn.createStatement();
-            rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question3` = 'Yes' GROUP BY `question3`;");
+            rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question3` = 'Yes' GROUP BY `question3`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -270,7 +270,7 @@ public class analyticServiceLayer {
                     rsts = null;
                     
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question3` = 'No' GROUP BY `question3`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question3` = 'No' GROUP BY `question3`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -302,7 +302,7 @@ public class analyticServiceLayer {
             String tempCount = "";
             conn = DatabaseConnection.getInstance().getConnection();
             state = (Statement) conn.createStatement();
-            rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question4` = 'Yes' GROUP BY `question3`;");
+            rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question4` = 'Yes' GROUP BY `question3`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -319,7 +319,7 @@ public class analyticServiceLayer {
                     rsts = null;
                     
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question4` = 'No' GROUP BY `question3`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question4` = 'No' GROUP BY `question3`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -351,7 +351,7 @@ public class analyticServiceLayer {
             String tempCount = "";
             conn = DatabaseConnection.getInstance().getConnection();
             state = (Statement) conn.createStatement();
-            rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question5` = 'Yes' GROUP BY `question3`;");
+            rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question5` = 'Yes' GROUP BY `question3`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -368,7 +368,7 @@ public class analyticServiceLayer {
                     rsts = null;
                     
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question5` = 'No' GROUP BY `question3`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question5` = 'No' GROUP BY `question3`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -400,7 +400,7 @@ public class analyticServiceLayer {
             String tempCount = "";
             conn = DatabaseConnection.getInstance().getConnection();
             state = (Statement) conn.createStatement();
-            rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question6` = 'Strongly agree' GROUP BY `question6`;");
+            rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question6` = 'Strongly agree' GROUP BY `question6`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -417,7 +417,7 @@ public class analyticServiceLayer {
                     rsts = null;
                     
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question6` = 'Agree' GROUP BY `question6`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question6` = 'Agree' GROUP BY `question6`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -433,7 +433,7 @@ public class analyticServiceLayer {
                     tempCount = "";
                     rsts = null;
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question6` = 'Disagree' GROUP BY `question6`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question6` = 'Disagree' GROUP BY `question6`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -449,7 +449,7 @@ public class analyticServiceLayer {
                     tempCount = "";
                     rsts = null;
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question6` = 'Strongly disagree' GROUP BY `question6`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question6` = 'Strongly disagree' GROUP BY `question6`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -481,7 +481,7 @@ public class analyticServiceLayer {
             String tempCount = "";
             conn = DatabaseConnection.getInstance().getConnection();
             state = (Statement) conn.createStatement();
-            rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question7` = 'Excellent' GROUP BY `question7`;");
+            rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question7` = 'Excellent' GROUP BY `question7`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -498,7 +498,7 @@ public class analyticServiceLayer {
                     rsts = null;
                     
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question7` = 'Good' GROUP BY `question7`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question7` = 'Good' GROUP BY `question7`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -514,7 +514,7 @@ public class analyticServiceLayer {
                     tempCount = "";
                     rsts = null;
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question7` = 'Neutral' GROUP BY `question7`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question7` = 'Neutral' GROUP BY `question7`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -530,7 +530,7 @@ public class analyticServiceLayer {
                     tempCount = "";
                     rsts = null;
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question7` = 'Bad' GROUP BY `question7`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question7` = 'Bad' GROUP BY `question7`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -562,7 +562,7 @@ public class analyticServiceLayer {
             String tempCount = "";
             conn = DatabaseConnection.getInstance().getConnection();
             state = (Statement) conn.createStatement();
-            rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question8` = 'Strongly agree' GROUP BY `question8`;");
+            rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question8` = 'Strongly agree' GROUP BY `question8`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -579,7 +579,7 @@ public class analyticServiceLayer {
                     rsts = null;
                     
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question8` = 'Agree' GROUP BY `question8`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question8` = 'Agree' GROUP BY `question8`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -595,7 +595,7 @@ public class analyticServiceLayer {
                     tempCount = "";
                     rsts = null;
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question8` = 'Disagree' GROUP BY `question8`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question8` = 'Disagree' GROUP BY `question8`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -611,7 +611,7 @@ public class analyticServiceLayer {
                     tempCount = "";
                     rsts = null;
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question8` = 'Strongly disagree' GROUP BY `question8`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question8` = 'Strongly disagree' GROUP BY `question8`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -643,7 +643,7 @@ public class analyticServiceLayer {
             String tempCount = "";
             conn = DatabaseConnection.getInstance().getConnection();
             state = (Statement) conn.createStatement();
-            rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question9` = 'Excellent' GROUP BY `question9`;");
+            rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question9` = 'Excellent' GROUP BY `question9`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -660,7 +660,7 @@ public class analyticServiceLayer {
                     rsts = null;
                     
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question9` = 'Good' GROUP BY `question9`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question9` = 'Good' GROUP BY `question9`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -676,7 +676,7 @@ public class analyticServiceLayer {
                     tempCount = "";
                     rsts = null;
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question9` = 'Neutral' GROUP BY `question9`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question9` = 'Neutral' GROUP BY `question9`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -692,7 +692,7 @@ public class analyticServiceLayer {
                     tempCount = "";
                     rsts = null;
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question9` = 'Bad' GROUP BY `question9`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question9` = 'Bad' GROUP BY `question9`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -724,7 +724,7 @@ public class analyticServiceLayer {
             String tempCount = "";
             conn = DatabaseConnection.getInstance().getConnection();
             state = (Statement) conn.createStatement();
-            rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question10` = 'Toyota Corolla Axio' GROUP BY `question10`;");
+            rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question10` = 'Toyota Corolla Axio' GROUP BY `question10`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -741,7 +741,7 @@ public class analyticServiceLayer {
                     rsts = null;
                     
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question10` = 'Toyota Premio' GROUP BY `question10`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question10` = 'Toyota Premio' GROUP BY `question10`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -757,7 +757,7 @@ public class analyticServiceLayer {
                     tempCount = "";
                     rsts = null;
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question10` = 'Audi S4' GROUP BY `question10`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question10` = 'Audi S4' GROUP BY `question10`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }
@@ -773,7 +773,7 @@ public class analyticServiceLayer {
                     tempCount = "";
                     rsts = null;
                     
-                    rsts = state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question10` = 'BMW 520d' GROUP BY `question10`;");
+                    rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(*) FROM `response` WHERE `question10` = 'BMW 520d' GROUP BY `question10`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);
                     }

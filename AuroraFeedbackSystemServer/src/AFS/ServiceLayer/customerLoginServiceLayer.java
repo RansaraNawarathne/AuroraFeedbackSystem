@@ -3,7 +3,7 @@ package AFS.ServiceLayer;
 
 import AFS.DatabaseLayer.DatabaseConnection;
 import com.mysql.jdbc.Connection;
-import java.sql.ResultSet;
+import com.mysql.jdbc.ResultSetImpl;
 import java.sql.SQLException;
 import com.mysql.jdbc.Statement;
 import java.util.logging.Level;
@@ -12,14 +12,14 @@ import java.util.logging.Logger;
 public class customerLoginServiceLayer {
     private static Connection conn;
     private static Statement state;
-    private static ResultSet rsts;
+    private static ResultSetImpl rsts;
     
     public static boolean validateUser (String invNo) {
         try {
             String retData = "";
             conn = DatabaseConnection.getInstance().getConnection();
             state = (Statement) conn.createStatement();
-            rsts = state.executeQuery("SELECT * FROM `reservation` WHERE `invNo` = '"+invNo+"';");
+            rsts = (ResultSetImpl) state.executeQuery("SELECT * FROM `reservation` WHERE `invNo` = '"+invNo+"';");
             while ( rsts.next() ) {
                 retData = rsts.getString("invNo");
             }

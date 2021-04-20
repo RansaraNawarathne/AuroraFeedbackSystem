@@ -6,7 +6,12 @@
 package AFS.FrontEnd;
 
 import AFS.FrontEnd.EventHandlers.TerminateEventHandler;
+import AFS.Interface.AFSRMIConnector;
+import AFS.Models.driver;
 import AFS.Utilities.*;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -246,6 +251,8 @@ public class addNewDriver extends javax.swing.JFrame {
             String conNumVal = "";
             String address = "";
             int age = 0;
+            int conNum = 0;
+            boolean subStatus = false;
 
             name = txtName.getText();
             ageVal = txtAge.getText();
@@ -269,15 +276,33 @@ public class addNewDriver extends javax.swing.JFrame {
             if ((conNumVal.trim().isEmpty()) || (conNumVal.length() != 10) ) {
                 throw new ConNullValueException();
             }
+            conNum = Integer.parseInt(conNumVal);
             if ((address.trim().isEmpty()) || (address.length() < 10)) {
                 throw new AddressNullValueException();
             }
 
+            driver drv = new driver(email, name, age, conNum, address);
+            
+            AFSRMIConnector saveNewDriver = new AFSRMIConnector();
+            subStatus = saveNewDriver.afsconnector().addNewDriver(drv);
+            
             System.out.println("Name: " + name);
             System.out.println("Age:" + age);
             System.out.println("Email: " + email);
             System.out.println("Contact Number: " + conNumVal);
             System.out.println("Address: " + address);
+            
+            if ( subStatus == true ) {
+                System.out.println("Values are successfully send to the server....");
+                JOptionPane.showMessageDialog(this, "Driver is successfully saved!", "Status", 1);
+                txtName.setText("");
+                txtEmail.setText("");
+                txtAge.setText("");
+                txtContactNumber.setText("");
+                txtAddress.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to saved Driver!", "Error!", 2);
+            }
         } catch (NameNullValueException ex1) {
             JOptionPane.showMessageDialog(this, ex1.getLocalizedMessage(), "Error!", 2);
         } catch (AgeNullValueException ex2) {
@@ -292,12 +317,16 @@ public class addNewDriver extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex6.getLocalizedMessage(), "Error!", 2);
         } catch (NumberFormatException ex7) {
             JOptionPane.showMessageDialog(this, "Please enter valid data into the age field!", "Error!", 2);
+        } catch (RemoteException ex) {
+            Logger.getLogger(addNewDriver.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAddDrvActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
-        btnCancel.addActionListener(new TerminateEventHandler());
+        //btnCancel.addActionListener(new TerminateEventHandler());
+        new adminHome().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     /**

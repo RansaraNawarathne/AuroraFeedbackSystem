@@ -3,7 +3,7 @@ package AFS.ServiceLayer;
 
 import AFS.DatabaseLayer.DatabaseConnection;
 import com.mysql.jdbc.Connection;
-import java.sql.ResultSet;
+import com.mysql.jdbc.ResultSetImpl;
 import java.sql.SQLException;
 import com.mysql.jdbc.Statement;
 import java.util.logging.Level;
@@ -12,14 +12,14 @@ import java.util.logging.Logger;
 public class adminLoginServiceLayer {
     private static Connection conn;
     private static Statement state;
-    private static ResultSet rsts;
+    private static ResultSetImpl rsts;
     
     public static boolean validateAdmin (String uname, String password) {
         try {
             String finalRes = "";
             conn = DatabaseConnection.getInstance().getConnection();
             state = (Statement) conn.createStatement();
-            rsts = state.executeQuery("SELECT * FROM `adminaccounts` WHERE `username` = '"+uname+"' AND `password` = '"+password+"';");
+            rsts = (ResultSetImpl) state.executeQuery("SELECT * FROM `adminaccounts` WHERE `username` = '"+uname+"' AND `password` = '"+password+"';");
             
             while (rsts.next()) {
                 finalRes = rsts.getString("username");              
