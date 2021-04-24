@@ -63,7 +63,7 @@
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="113" max="32767" attributes="0"/>
                           <Component id="btnDelete" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnUpdateDrv" min="-2" max="-2" attributes="0"/>
@@ -72,12 +72,14 @@
                       <Component id="txtAddress" alignment="0" max="32767" attributes="0"/>
                       <Component id="txtAge" alignment="0" max="32767" attributes="0"/>
                       <Component id="txtEmail" alignment="0" max="32767" attributes="0"/>
-                      <Component id="txtSeaEmail" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="txtSeaEmail" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnSearch" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <Component id="txtName" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="btnSearch" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="285" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="388" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

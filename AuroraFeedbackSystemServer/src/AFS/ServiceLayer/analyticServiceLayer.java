@@ -107,6 +107,9 @@ public class analyticServiceLayer {
             String tempCount = "";
             conn = DatabaseConnection.getInstance().getConnection();
             state = (Statement) conn.createStatement();
+            /*
+            Polshcha, M. and Jivani, A., 2021. how to select Count of Ranges from mysql table?. [online] Stack Overflow. Available at: <https://stackoverflow.com/questions/10028431/how-to-select-count-of-ranges-from-mysql-table>.
+            */
             rsts = (ResultSetImpl) state.executeQuery("SELECT COUNT(CASE WHEN `question1` BETWEEN 16 AND 30 THEN 1 END) FROM `response`;");
                     while (rsts.next()) {
                         tempCount = rsts.getString(1);

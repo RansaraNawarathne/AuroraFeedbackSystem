@@ -9,6 +9,7 @@ import AFS.Models.driver;
 import AFS.Models.question;
 import AFS.Models.reservation;
 import AFS.Models.result;
+import AFS.Models.vehicle;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -29,4 +30,8 @@ public interface AFSInterface extends Remote {
     public driver searchdriver ( String eamil ) throws RemoteException;
     public boolean updateDriver ( String email, driver drv1 ) throws RemoteException;
     public boolean deleteDriver ( String email ) throws RemoteException;
+    public boolean addNewVehicle ( vehicle veh ) throws RemoteException;
+    public vehicle searchVehicle ( String seaVehNum ) throws RemoteException;
+    public boolean updateVehicle ( String seaVehNum, vehicle veh1 ) throws RemoteException;
+    public boolean deleteVehicle ( String seaVehNum ) throws RemoteException;
 }

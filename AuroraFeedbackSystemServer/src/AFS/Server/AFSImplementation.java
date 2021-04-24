@@ -9,6 +9,7 @@ import AFS.Interface.AFSInterface;
 import AFS.Models.driver;
 import AFS.Models.reservation;
 import AFS.Models.result;
+import AFS.Models.vehicle;
 import AFS.ServiceLayer.AFSChartGenerator;
 import AFS.ServiceLayer.AFSEmailService;
 import AFS.ServiceLayer.adminLoginServiceLayer;
@@ -17,6 +18,7 @@ import AFS.ServiceLayer.customerLoginServiceLayer;
 import AFS.ServiceLayer.driverServiceLayer;
 import AFS.ServiceLayer.reservationServiceLayer;
 import AFS.ServiceLayer.resultServiceLayer;
+import AFS.ServiceLayer.vehicleServiceLayer;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -122,6 +124,38 @@ public class AFSImplementation extends UnicastRemoteObject implements AFSInterfa
          boolean stateRes = false;
          driverServiceLayer drvsvl3 = new driverServiceLayer();
          stateRes = drvsvl3.deleteDriver ( email );
+         return stateRes;
+     }
+     
+     @Override
+     public boolean addNewVehicle ( vehicle veh ) throws RemoteException {
+         boolean stateRes = false;
+         vehicleServiceLayer vehsv1 = new vehicleServiceLayer();
+         stateRes = vehsv1.saveVehicle( veh );
+         return stateRes;
+     }
+     
+     @Override
+     public vehicle searchVehicle ( String seaVehNum ) throws RemoteException {
+         vehicle veh1 = null;
+         vehicleServiceLayer vehsv2 = new vehicleServiceLayer();
+         veh1 = vehsv2.searchVehicle( seaVehNum );
+         return veh1;
+     }
+     
+     @Override
+     public boolean updateVehicle ( String seaVehNum, vehicle veh1 ) throws RemoteException {
+         boolean stateRes = false;
+         vehicleServiceLayer vehsv3 = new vehicleServiceLayer();
+         stateRes = vehsv3.editVehicle( seaVehNum , veh1 );
+         return stateRes;
+     }
+     
+     @Override
+     public boolean deleteVehicle ( String seaVehNum ) throws RemoteException {
+         boolean stateRes = false;
+         vehicleServiceLayer vehsv3 = new vehicleServiceLayer();
+         stateRes = vehsv3.deleteDriver( seaVehNum );
          return stateRes;
      }
 }

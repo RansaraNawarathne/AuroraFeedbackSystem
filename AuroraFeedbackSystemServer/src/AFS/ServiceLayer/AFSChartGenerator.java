@@ -1,4 +1,6 @@
-
+/*
+Quickchart.io. 2021. Documentation. [online] Available at: <https://quickchart.io/documentation/#library-java>.
+*/
 package AFS.ServiceLayer;
 
 import AFS.Models.analytic;

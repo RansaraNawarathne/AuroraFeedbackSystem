@@ -26,6 +26,7 @@ public class addNewDriver extends javax.swing.JFrame {
      */
     public addNewDriver() {
         initComponents();
+        //To center the window in the display
         this.setLocationRelativeTo(null);
     }
 
@@ -60,6 +61,7 @@ public class addNewDriver extends javax.swing.JFrame {
         setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(53, 58, 64));
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -233,17 +235,17 @@ public class addNewDriver extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-        // TODO add your handling code here:
+        // Minimize event
         this.setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jLabel10MouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        // TODO add your handling code here:
+        // Terminate event
         System.exit(0);
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void btnAddDrvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDrvActionPerformed
-        // TODO add your handling code here:
+        // Add Driver Function
         try {
             String name = "";
             String ageVal = "";
@@ -254,12 +256,14 @@ public class addNewDriver extends javax.swing.JFrame {
             int conNum = 0;
             boolean subStatus = false;
 
+            //Fetching textfield values
             name = txtName.getText();
             ageVal = txtAge.getText();
             email = txtEmail.getText();
             conNumVal = txtContactNumber.getText();
             address = txtAddress.getText();
 
+            //Validating fetched values
             if (name.trim().isEmpty()) {
                 throw new NameNullValueException();
             }
@@ -281,17 +285,21 @@ public class addNewDriver extends javax.swing.JFrame {
                 throw new AddressNullValueException();
             }
 
+            //Creating driver object
             driver drv = new driver(email, name, age, conNum, address);
             
+            //Creating AFSRMINConnector object
             AFSRMIConnector saveNewDriver = new AFSRMIConnector();
             subStatus = saveNewDriver.afsconnector().addNewDriver(drv);
             
+            //Testing purpose
             System.out.println("Name: " + name);
             System.out.println("Age:" + age);
             System.out.println("Email: " + email);
             System.out.println("Contact Number: " + conNumVal);
             System.out.println("Address: " + address);
             
+            //Verifying whether the data is saved in the database
             if ( subStatus == true ) {
                 System.out.println("Values are successfully send to the server....");
                 JOptionPane.showMessageDialog(this, "Driver is successfully saved!", "Status", 1);
@@ -323,7 +331,7 @@ public class addNewDriver extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddDrvActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
+        // Terminate current window and returning to the home window
         //btnCancel.addActionListener(new TerminateEventHandler());
         new adminHome().setVisible(true);
         this.dispose();

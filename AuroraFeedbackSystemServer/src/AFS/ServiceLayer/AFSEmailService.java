@@ -3,6 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+/*
+Youtube.com. 2021. How To Send Email Using Java + Netbeans. [online] Available at: <https://www.youtube.com/watch?v=6waaVUo7Zzk>.
+*/
 package AFS.ServiceLayer;
 
 import java.util.Properties;

@@ -46,10 +46,16 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
                 BufferedImage chartimg = null;
                 charturl = generateChart.afsconnector().createChart("bar", 7);
                 System.out.println("Chart URL: " +charturl);
+                /*
+                2021. How to download Image from URL and save it in Java?. [online] Available at: <https://www.codercrunch.com/question/101501912/how-download-image-url-and-save-it-java>.
+                */
                 URL cUrl = new URL(charturl);
                 chartimg = ImageIO.read(cUrl);
                 ImageIO.write(chartimg, "png",new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart7.png"));
                 lstUpdate = lastUpdate();
+                /*
+                Narros, T., Verma, N., z, m. and Zaki, A., 2021. Java: how to add image to Jlabel?. [online] Stack Overflow. Available at: <https://stackoverflow.com/questions/3775373/java-how-to-add-image-to-jlabel#:~:text=You%20have%20to%20supply%20to,thumb%20%3D%20new%20JLabel()%3B%20thumb.>.
+                */
                 ImageIcon chr = new ImageIcon("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart7.png");
                 lblChart.setIcon(chr);
                 lblLastUpdate.setText("Last Update: "+lstUpdate);
@@ -248,9 +254,15 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
             }
             charturl = generateChart.afsconnector().createChart("bar", qno);
             System.out.println("Chart URL: " +charturl);
+            /*
+            2021. How to download Image from URL and save it in Java?. [online] Available at: <https://www.codercrunch.com/question/101501912/how-download-image-url-and-save-it-java>.
+            */
             URL cUrl = new URL(charturl);
             chartimg = ImageIO.read(cUrl);
             ImageIO.write(chartimg, "png",new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart"+qno+".png"));
+            /*
+            Narros, T., Verma, N., z, m. and Zaki, A., 2021. Java: how to add image to Jlabel?. [online] Stack Overflow. Available at: <https://stackoverflow.com/questions/3775373/java-how-to-add-image-to-jlabel#:~:text=You%20have%20to%20supply%20to,thumb%20%3D%20new%20JLabel()%3B%20thumb.>.
+            */
             ImageIcon chr = new ImageIcon("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart"+qno+".png");
             lblChart.setIcon(chr);
             lblLastUpdate.setText("Last Update: "+lstUpdate);

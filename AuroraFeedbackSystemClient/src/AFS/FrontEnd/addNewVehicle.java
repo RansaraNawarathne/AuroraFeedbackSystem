@@ -6,9 +6,14 @@
 package AFS.FrontEnd;
 
 import AFS.FrontEnd.EventHandlers.TerminateEventHandler;
+import AFS.Interface.AFSRMIConnector;
+import AFS.Models.vehicle;
 import AFS.Utilities.*;
+import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -296,7 +301,12 @@ public class addNewVehicle extends javax.swing.JFrame {
             String address = "";
             int cYear = 0;
             int yom = 0;
+            int conNum = 0;
+            boolean subStatus = false;
             
+            /*
+            www.javatpoint.com. 2021. Java Date getYear() Method with Examples - Javatpoint. [online] Available at: <https://www.javatpoint.com/java-date-getyear-method>.
+            */
             Date systemDate = new Date();            
             cYear = systemDate.getYear()+1900;
             
@@ -331,9 +341,30 @@ public class addNewVehicle extends javax.swing.JFrame {
             if ( conNumber.trim().isEmpty()  || ( conNumber.length() != 10) ) {
                 throw new ConNullValueException();
             }
+            conNum = Integer.parseInt( conNumber );
             if ( address.trim().isEmpty() || ( address.length() < 10 ) ) {
                 throw new AddressNullValueException();
             }
+            
+            vehicle veh = new vehicle(vehNumber, vehBrand, vehYOM, name, email, conNum, address);
+            AFSRMIConnector saveNewVehicle = new AFSRMIConnector();
+            
+            subStatus = saveNewVehicle.afsconnector().addNewVehicle( veh );
+            
+            if ( subStatus == true ) {
+                System.out.println("Values are successfully send to the server....");
+                JOptionPane.showMessageDialog(this, "Vehicle is successfully saved!", "Status", 1);
+                txtVehNo.setText("");
+                txtVeBrand.setText("");
+                txtYom.setText("");
+                txtName.setText("");
+                txtConNumber.setText("");
+                txtEmail.setText("");
+                txtAddress.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to saved Vehicle!", "Error!", 2);
+            }
+            
         } catch (VehicleNumberNullException ex1) {
             JOptionPane.showMessageDialog(this, ex1.getLocalizedMessage(), "Error!", 2);
         } catch (VehicleBrandNullException ex2) {
@@ -350,6 +381,8 @@ public class addNewVehicle extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex7.getLocalizedMessage(), "Error!", 2);
         }  catch (NumberFormatException ex8) {
             JOptionPane.showMessageDialog(this, "Please enter valid data into the fields!", "Error!", 2);
+        } catch (RemoteException ex) {
+            Logger.getLogger(addNewVehicle.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAddVehActionPerformed
 

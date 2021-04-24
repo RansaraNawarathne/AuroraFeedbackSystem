@@ -139,7 +139,7 @@ public class editDriver extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
                         .addComponent(btnDelete)
                         .addGap(18, 18, 18)
                         .addComponent(btnUpdateDrv))
@@ -147,11 +147,12 @@ public class editDriver extends javax.swing.JFrame {
                     .addComponent(txtAddress, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtAge, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtSeaEmail)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtSeaEmail)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSearch))
                     .addComponent(txtName, javax.swing.GroupLayout.Alignment.LEADING))
-                .addGap(18, 18, 18)
-                .addComponent(btnSearch)
-                .addGap(285, 285, 285))
+                .addGap(388, 388, 388))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,14 +269,14 @@ public class editDriver extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
+        // Terminate current window and retruning to the home window
         //btnCancel.addActionListener(new TerminateEventHandler());
         new adminHome().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnUpdateDrvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateDrvActionPerformed
-        // TODO add your handling code here:
+        // TO update driver information
         try {
             String seaEmail = "";
             String name = "";
@@ -287,6 +288,7 @@ public class editDriver extends javax.swing.JFrame {
             int conNum = 0;
             boolean subStatus = false;
 
+            //Fetching textfield values
             seaEmail = txtSeaEmail.getText();
             name = txtName.getText();
             ageVal = txtAge.getText();
@@ -294,6 +296,10 @@ public class editDriver extends javax.swing.JFrame {
             conNumVal = txtContactNumber.getText();
             address = txtAddress.getText();
 
+            //Validating fethced textfield values
+            if (seaEmail.trim().isEmpty()) {
+                throw new EmailNullValueException();
+            }
             if (name.trim().isEmpty()) {
                 throw new NameNullValueException();
             }
@@ -315,17 +321,21 @@ public class editDriver extends javax.swing.JFrame {
                 throw new AddressNullValueException();
             }            
             
+            //Creating driver object
             driver drv2 = new driver(email, name, age, conNum, address);
             
+            //Creating AFSRMIConnector object
             AFSRMIConnector updateDriver = new AFSRMIConnector();
             subStatus = updateDriver.afsconnector().updateDriver( seaEmail, drv2 );
 
+            //Testing pupose
             System.out.println("Name: " + name);
             System.out.println("Age:" + age);
             System.out.println("Email: " + email);
             System.out.println("Contact Number: " + conNumVal);
             System.out.println("Address: " + address);
             
+            //Verifying whether the data is updated in the database
             if ( subStatus == true ) {
                 System.out.println("Values are successfully send to the server....");
                 JOptionPane.showMessageDialog(this, "Driver is successfully updated!", "Status", 1);
@@ -362,31 +372,58 @@ public class editDriver extends javax.swing.JFrame {
             // To search driver
             String seaEmail = "";
             driver drv1 = null;
+            
+            //Fetching textfield vales
             seaEmail = txtSeaEmail.getText();
+            
+            //Validating fetched values
+            if (seaEmail.trim().isEmpty()) {
+                throw new EmailNullValueException();
+            }
+            
+            //Creting AFSRMIConnector object
             AFSRMIConnector driverManagement = new AFSRMIConnector();
             drv1 = driverManagement.afsconnector().searchdriver(seaEmail);
+            
+            // Displaying data which are fetched from the database
+            if ( drv1 != null ) {
             txtName.setText(drv1.getName());
             txtEmail.setText(drv1.getEmail());
             txtAge.setText(drv1.getAge()+"");
             txtContactNumber.setText(drv1.getConNum()+"");
             txtAddress.setText(drv1.getAddress());
+            } else {
+                JOptionPane.showMessageDialog(this, "Please enter a valid Email address!", "Error!", 2);
+            }
+            
         } catch (RemoteException ex) {
             Logger.getLogger(editDriver.class.getName()).log(Level.SEVERE, null, ex);
         } catch ( NullPointerException ex1 ) {
             JOptionPane.showMessageDialog(this, "Please enter a valid Email address!\n"+ex1.getLocalizedMessage(), "Error!", 2);
+        } catch ( EmailNullValueException ex2 ) {
+             JOptionPane.showMessageDialog(this, ex2.getLocalizedMessage(), "Error!", 2);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         try {
-            // TODO add your handling code here:
+            // To delete driver records
             String seaEmail = "";
             boolean subStatus = false;
+            
+            //Fetching textfield values
             seaEmail = txtSeaEmail.getText();
             
+            //Validating fetched vlaues
+            if ( seaEmail.trim().isEmpty() ) {
+                throw new EmailNullValueException();
+            }
+            
+            //Creating AFSRMIConnector object
             AFSRMIConnector deleteDriver = new AFSRMIConnector();
             subStatus = deleteDriver.afsconnector().deleteDriver(seaEmail);
             
+            //Verifying whether the data is deleted in the database
             if ( subStatus == true ) {
                 System.out.println("Values are successfully send to the server....");
                 JOptionPane.showMessageDialog(this, "Driver is successfully deleted!", "Status", 1);
@@ -401,6 +438,8 @@ public class editDriver extends javax.swing.JFrame {
             }
         } catch (RemoteException ex) {
             Logger.getLogger(editDriver.class.getName()).log(Level.SEVERE, null, ex);
+        } catch ( EmailNullValueException ex1 ) {
+             JOptionPane.showMessageDialog(this, ex1.getLocalizedMessage(), "Error!", 2);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
