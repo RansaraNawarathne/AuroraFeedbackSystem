@@ -34,4 +34,8 @@ public interface AFSInterface extends Remote {
     public vehicle searchVehicle ( String seaVehNum ) throws RemoteException;
     public boolean updateVehicle ( String seaVehNum, vehicle veh1 ) throws RemoteException;
     public boolean deleteVehicle ( String seaVehNum ) throws RemoteException;
+    public String generateInvoiceNumber ()throws RemoteException;
+    public reservation searchReservation ( String seaIvnNum ) throws RemoteException;
+    public boolean updateReservation ( String seaInvNum, reservation res1 ) throws RemoteException;
+    public boolean deleteReservation ( String seaInvNum ) throws RemoteException;
 }

@@ -21,7 +21,7 @@ public class resultServiceLayer {
     private static Connection conn;
     private static PreparedStatement prst;
     
-    public boolean saveResponse (result[] rsultObj, String invID ) {
+    public static boolean saveResponse (result[] rsultObj, String invID ) {
         try {
             conn = DatabaseConnection.getInstance().getConnection();
             prst = (PreparedStatement) conn.prepareStatement("INSERT INTO `response` (`invNo`, `question1`, `question2`, `question3`, `question4`, `question5`, `question6`, `question7`, `question8`, `question9`, `question10`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");

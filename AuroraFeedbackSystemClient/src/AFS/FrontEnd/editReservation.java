@@ -5,7 +5,6 @@
  */
 package AFS.FrontEnd;
 
-import AFS.FrontEnd.EventHandlers.TerminateEventHandler;
 import AFS.Interface.AFSRMIConnector;
 import AFS.Models.reservation;
 import AFS.Utilities.EmailNullValueException;
@@ -21,30 +20,15 @@ import javax.swing.JOptionPane;
  *
  * @author ransa
  */
-public class addNewReservation extends javax.swing.JFrame {
+public class editReservation extends javax.swing.JFrame {
 
     /**
-     * Creates new form addNewReservation
+     * Creates new form editReservation
      */
-    private String invNo = "";
-
-    public addNewReservation() {
+    
+    public editReservation() {
         initComponents();
         this.setLocationRelativeTo(null);
-        //To generate new invoice number
-        AFSRMIConnector generateInv = new AFSRMIConnector();
-        try {
-            invNo = generateInv.afsconnector().generateInvoiceNumber();
-        } catch (RemoteException ex) {
-            Logger.getLogger(addNewReservation.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //Validating whether the invoice number is recieved or not
-        if (invNo.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Failed to generate invoice number!", "Error!", 2);
-        } else {
-            //Diplaying fecthed generate invoice number
-            lblInvNum.setText(invNo);
-        }
     }
 
     /**
@@ -60,11 +44,15 @@ public class addNewReservation extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtDrvID = new javax.swing.JTextField();
-        txtVehID = new javax.swing.JTextField();
-        btnSubmit = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         lblInvNum = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtDrvID = new javax.swing.JTextField();
+        txtVehID = new javax.swing.JTextField();
+        txtSeaInvNo = new javax.swing.JTextField();
+        btnUpdate = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -85,19 +73,7 @@ public class addNewReservation extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Vehivcle ID: ");
-
-        txtDrvID.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-
-        txtVehID.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-
-        btnSubmit.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnSubmit.setText("Submit");
-        btnSubmit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSubmitActionPerformed(evt);
-            }
-        });
+        jLabel4.setText("Vehicle ID: ");
 
         btnCancel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCancel.setText("Cancel");
@@ -111,33 +87,79 @@ public class addNewReservation extends javax.swing.JFrame {
         lblInvNum.setForeground(new java.awt.Color(255, 255, 255));
         lblInvNum.setText("afs");
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Invoice Number: ");
+
+        txtDrvID.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        txtVehID.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        txtSeaInvNo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        btnUpdate.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnSearch.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnSearch.setText("Search");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(138, 138, 138)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGap(107, 107, 107)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 235, Short.MAX_VALUE)
-                        .addComponent(btnSubmit))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
+                        .addComponent(btnDelete)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUpdate))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtDrvID, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(lblInvNum)
+                            .addComponent(txtDrvID)
                             .addComponent(txtVehID)
-                            .addComponent(lblInvNum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtSeaInvNo, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSearch)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(74, 74, 74)
+                .addGap(36, 36, 36)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtSeaInvNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch))
+                .addGap(41, 41, 41)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(lblInvNum))
@@ -149,11 +171,12 @@ public class addNewReservation extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtVehID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(81, 81, 81)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSubmit)
-                    .addComponent(btnCancel))
-                .addContainerGap(218, Short.MAX_VALUE))
+                    .addComponent(btnCancel)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(236, 124, 124));
@@ -189,7 +212,7 @@ public class addNewReservation extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 656, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 653, Short.MAX_VALUE)
                 .addComponent(jLabel10)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -210,8 +233,8 @@ public class addNewReservation extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,27 +248,39 @@ public class addNewReservation extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-        // TODO add your handling code here:
+        // Minimize event
         this.setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jLabel10MouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        // TODO add your handling code here:
+        // Terminate event
         System.exit(0);
     }//GEN-LAST:event_jLabel9MouseClicked
 
-    private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
+        //btnCancel.addActionListener(new TerminateEventHandler());
+        new adminHome().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // To update reservation information
         try {
+            String seaInvNum = "";
             String invID = "";
             String drvID = "";
             String vehID = "";
-            reservation resv1;
+            reservation resv1 = null;
 
+            seaInvNum = txtSeaInvNo.getText();
             invID = lblInvNum.getText();
             drvID = txtDrvID.getText();
             vehID = txtVehID.getText();
 
+            if ( seaInvNum.trim().isEmpty() ) {
+                throw new invoiceNullValueException();
+            }
             if (invID.trim().isEmpty()) {
                 throw new invoiceNullValueException();
             }
@@ -260,26 +295,18 @@ public class addNewReservation extends javax.swing.JFrame {
 
             AFSRMIConnector ansSet1 = new AFSRMIConnector();
             boolean SubStatus = false;
-            SubStatus = ansSet1.afsconnector().getReservation(resv1);
+            SubStatus = ansSet1.afsconnector().updateReservation(seaInvNum, resv1);
 
             if (SubStatus == true) {
                 System.out.println("Values are successfully send to the server....");
-                JOptionPane.showMessageDialog(this, "Reservation is successfully saved!", "Status", 1);
-                AFSRMIConnector generateInv = new AFSRMIConnector();
-                try {
-                    invNo = generateInv.afsconnector().generateInvoiceNumber();
-                } catch (RemoteException ex) {
-                    Logger.getLogger(addNewReservation.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                if (invNo.trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Failed to generate invoice number!", "Error!", 2);
-                } else {
-                    lblInvNum.setText(invNo);
-                }
+                JOptionPane.showMessageDialog(this, "Reservation is successfully updated!", "Status", 1);
+                
+                txtSeaInvNo.setText("");
+                lblInvNum.setText("afs");
                 txtDrvID.setText("");
                 txtVehID.setText("");
             } else {
-                JOptionPane.showMessageDialog(this, "Failed to saved reservation!", "Error!", 2);
+                JOptionPane.showMessageDialog(this, "Failed to update reservation!", "Error!", 2);
             }
         } catch (invoiceNullValueException ex1) {
             JOptionPane.showMessageDialog(this, ex1.getLocalizedMessage(), "Error!", 2);
@@ -290,14 +317,79 @@ public class addNewReservation extends javax.swing.JFrame {
         } catch (RemoteException ex) {
             Logger.getLogger(addNewReservation.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_btnSubmitActionPerformed
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
-        //btnCancel.addActionListener(new TerminateEventHandler());
-        new adminHome().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnCancelActionPerformed
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        try {
+            // To search reservation:
+            String seaInvNum = "";
+            reservation resv2 = null;
+            
+            //Fetching textfield values
+            seaInvNum = txtSeaInvNo.getText();
+            
+            //Validating fetched values
+            if ( seaInvNum.trim().isEmpty() ) {
+                throw new invoiceNullValueException();
+            }
+            
+            //Creating AFSRMIConnector object
+            AFSRMIConnector reservationManagement = new AFSRMIConnector();
+            resv2 = reservationManagement.afsconnector().searchReservation( seaInvNum );
+            
+            if ( resv2 != null ) {
+                lblInvNum.setText(resv2.getInvID());
+                txtDrvID.setText(resv2.getDrvID());
+                txtVehID.setText(resv2.getVehID());
+            } else {
+                JOptionPane.showMessageDialog(this, "Please enter a valid invoice number!", "Error!", 2);
+                lblInvNum.setText("");
+                txtDrvID.setText("");
+                txtVehID.setText("");
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(editReservation.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (invoiceNullValueException ex1) {
+            JOptionPane.showMessageDialog(this, ex1.getLocalizedMessage(), "Error!", 2);
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            // To delete reservation info
+            String seaInvNum = "";
+            boolean subStatus = false;
+            
+            //Fetching textfield values
+            seaInvNum = txtSeaInvNo.getText();
+            
+            //Validating fetched values
+            if ( seaInvNum.trim().isEmpty() ) {
+                throw new invoiceNullValueException();
+            }
+            
+            //Creating AFSRMIConnector
+            AFSRMIConnector deleteReservation = new AFSRMIConnector();
+            subStatus = deleteReservation.afsconnector().deleteReservation( seaInvNum );
+            
+            //Verifying whther the data is deleted in the database
+            if ( subStatus == true ) {
+                System.out.println("Values are successfully send to the server....");
+                JOptionPane.showMessageDialog(this, "Reservation is successfully deleted!", "Status", 1);
+                
+                txtSeaInvNo.setText("");
+                lblInvNum.setText("afs");
+                txtDrvID.setText("");
+                txtVehID.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to delete reservation!", "Error!", 2);
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(editReservation.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (invoiceNullValueException ex1) {
+            JOptionPane.showMessageDialog(this, ex1.getLocalizedMessage(), "Error!", 2);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -316,37 +408,41 @@ public class addNewReservation extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(addNewReservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(editReservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(addNewReservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(editReservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(addNewReservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(editReservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(addNewReservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(editReservation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new addNewReservation().setVisible(true);
+                new editReservation().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnSubmit;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblInvNum;
     private javax.swing.JTextField txtDrvID;
+    private javax.swing.JTextField txtSeaInvNo;
     private javax.swing.JTextField txtVehID;
     // End of variables declaration//GEN-END:variables
 }

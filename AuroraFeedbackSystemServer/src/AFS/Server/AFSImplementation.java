@@ -158,4 +158,37 @@ public class AFSImplementation extends UnicastRemoteObject implements AFSInterfa
          stateRes = vehsv3.deleteDriver( seaVehNum );
          return stateRes;
      }
+     
+     
+     @Override
+     public String generateInvoiceNumber ()throws RemoteException {
+         String newInvNo = "";
+         reservationServiceLayer resv2 = new reservationServiceLayer();
+         newInvNo = resv2.generateInvoiceNo();
+         return newInvNo;
+     }
+     
+     @Override
+     public reservation searchReservation ( String seaIvnNum ) throws RemoteException {
+         reservation rev1 = null;
+         reservationServiceLayer resvsl1 = new reservationServiceLayer();
+         rev1 = resvsl1.searchReservation ( seaIvnNum );
+         return rev1;
+     }
+     
+     @Override
+     public boolean updateReservation ( String seaInvNum, reservation res1 ) throws RemoteException {
+         boolean statusRes = false;
+         reservationServiceLayer resvsl2 = new reservationServiceLayer();
+         statusRes = resvsl2.editReservation(seaInvNum, res1);
+         return statusRes;
+     }
+     
+     @Override
+     public boolean deleteReservation ( String seaInvNum ) throws RemoteException {
+         boolean statusRes = false;
+         reservationServiceLayer resvsl3 = new reservationServiceLayer();
+         statusRes = resvsl3.deleteReservation ( seaInvNum );
+         return statusRes;
+     } 
 }

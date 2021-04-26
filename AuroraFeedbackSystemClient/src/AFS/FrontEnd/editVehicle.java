@@ -342,6 +342,14 @@ public class editVehicle extends javax.swing.JFrame {
                 txtAddress.setText(veh.getAddress());
             } else {
                 JOptionPane.showMessageDialog(this, "Please Enter a Valid Vehicle Number!", "Error!", 2);
+                txtSeaVehNum.setText("");
+                txtVehNum.setText("");
+                txtVehBrand.setText("");
+                txtYOM.setText("");
+                txtName.setText("");
+                txtConNum.setText("");
+                txtEmail.setText("");
+                txtAddress.setText("");
             }
         } catch (RemoteException ex) {
             Logger.getLogger(editVehicle.class.getName()).log(Level.SEVERE, null, ex);

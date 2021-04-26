@@ -373,7 +373,7 @@ public class editDriver extends javax.swing.JFrame {
             String seaEmail = "";
             driver drv1 = null;
             
-            //Fetching textfield vales
+            //Fetching textfield valus
             seaEmail = txtSeaEmail.getText();
             
             //Validating fetched values
@@ -394,6 +394,12 @@ public class editDriver extends javax.swing.JFrame {
             txtAddress.setText(drv1.getAddress());
             } else {
                 JOptionPane.showMessageDialog(this, "Please enter a valid Email address!", "Error!", 2);
+                txtSeaEmail.setText("");
+                txtName.setText("");
+                txtEmail.setText("");
+                txtAge.setText("");
+                txtContactNumber.setText("");
+                txtAddress.setText("");
             }
             
         } catch (RemoteException ex) {

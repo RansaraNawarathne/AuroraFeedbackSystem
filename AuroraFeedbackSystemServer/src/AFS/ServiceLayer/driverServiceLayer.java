@@ -18,7 +18,7 @@ public class driverServiceLayer {
     private static Statement state;
     private static ResultSetImpl rsts;
     
-    public boolean saveDriver ( driver drv ) {
+    public static boolean saveDriver ( driver drv ) {
         try {
             boolean statusRes = false;
             conn = DatabaseConnection.getInstance().getConnection();
@@ -37,7 +37,7 @@ public class driverServiceLayer {
         return false;
     }
     
-    public driver searchDriver ( String seaEmail ) {
+    public static driver searchDriver ( String seaEmail ) {
         try {
             driver drv1 = null;
             conn = DatabaseConnection.getInstance().getConnection();
@@ -56,7 +56,7 @@ public class driverServiceLayer {
         return null;
     }
     
-    public boolean editDriver ( String seaEmail, driver drv2 ) {
+    public static boolean editDriver ( String seaEmail, driver drv2 ) {
         try {
             boolean statusRes = false;
             conn = DatabaseConnection.getInstance().getConnection();
@@ -74,7 +74,7 @@ public class driverServiceLayer {
         return false;
     }
     
-    public boolean deleteDriver ( String seaEmail ) {
+    public static boolean deleteDriver ( String seaEmail ) {
         try {
             boolean statusRes = false;
             conn = DatabaseConnection.getInstance().getConnection();
