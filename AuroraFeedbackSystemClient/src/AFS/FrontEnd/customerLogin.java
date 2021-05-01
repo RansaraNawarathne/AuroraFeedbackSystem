@@ -1,20 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.FrontEnd;
 
-import AFS.Interface.AFSInterface;
 import AFS.Interface.AFSRMIConnector;
+import AFS.Utilities.invoiceNullValueException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,8 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author ransa
+ * Customer Login GUI (JFrame)
+ * @author Malindu Ransara Nawarathne
  */
 public class customerLogin extends javax.swing.JFrame {
 
@@ -32,6 +25,7 @@ public class customerLogin extends javax.swing.JFrame {
      */
     public customerLogin() {
         initComponents();
+        //To center the window in the display
         this.setLocationRelativeTo(null);
     }
 
@@ -52,6 +46,7 @@ public class customerLogin extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        btnAdminLogin = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -126,6 +121,15 @@ public class customerLogin extends javax.swing.JFrame {
         jLabel2.setText("Welcome to the Aurora Tours Feedback System !");
         jLabel2.setToolTipText("");
 
+        btnAdminLogin.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdminLogin.setText("Admin Login");
+        btnAdminLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAdminLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAdminLoginMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -135,8 +139,13 @@ public class customerLogin extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(109, 109, 109))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAdminLogin))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(30, 30, 30))
         );
         jPanel2Layout.setVerticalGroup(
@@ -146,7 +155,9 @@ public class customerLogin extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAdminLogin)
+                .addContainerGap())
         );
 
         jPanel3.setBackground(new java.awt.Color(236, 124, 124));
@@ -226,22 +237,34 @@ public class customerLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+            // To validate the user and to login o the system     
         try {
-            // TODO add your handling code here:
+            //Initializing and declaring variables
             boolean finalVal = false;
             String invNo = "";
             String cookieVal = "";
+            
+            //Fetching textfield values
             invNo = txtInvoiceNum.getText();
+            
+            //Validating fetched values
+            if ( invNo.trim().isEmpty() ) {
+                throw new invoiceNullValueException();
+            }
+            
+            //Creating AFSRMIConnector object
             //AFSInterface userValidating = (AFSInterface) Naming.lookup("rmi://localhost/AFSServer2021");
             AFSRMIConnector userValidating = new AFSRMIConnector();          
             finalVal = userValidating.afsconnector().validateInvoiceNo (invNo);
             System.out.println("Values are successfully send to the server....");
+            
+            //Validating whether the values are validated
             if ( finalVal == true ) {
                 System.out.println("Successfully Logged In!");      
                 cookieVal = userValidating.afsconnector().createCookie(invNo);
                 System.out.println("Cookie Value: "+cookieVal);
                 CreateCookie (cookieVal);
-                new question1(0).setVisible(true);
+                new question1().setVisible(true);
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Please Enter Valid Invoice Number!", "Error!", 2);
@@ -253,18 +276,28 @@ public class customerLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        // TODO add your handling code here:
+        // To close the current window and to close the application
         System.exit(0);
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        // TODO add your handling code here:
+        // To minimize the current window
         this.setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jLabel7MouseClicked
 
+    private void btnAdminLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminLoginMouseClicked
+        // To close the current window and to open admin login window
+        new adminLogin().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAdminLoginMouseClicked
+
+    /**
+     * Create Cookie
+     * @param val: Invoice number
+     */
     public void CreateCookie (String val) {
         try {
-            FileOutputStream filOut;
+            FileOutputStream filOut = null;
             filOut = new FileOutputStream(new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\localResults\\userCookie.ckafs"));
             ObjectOutputStream outStr = new ObjectOutputStream(filOut);
             outStr.writeObject(val);
@@ -310,6 +343,7 @@ public class customerLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnAdminLogin;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

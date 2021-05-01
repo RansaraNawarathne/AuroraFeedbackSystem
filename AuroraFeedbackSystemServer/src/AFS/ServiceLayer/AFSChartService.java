@@ -21,6 +21,10 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 
+/**
+ * AFS Chart Service Layer
+ * @author Malindu Ransara Nawarathne
+ */
 public class AFSChartService {
     
   private Integer width = 500;
@@ -41,8 +45,13 @@ public class AFSChartService {
 		this("https", "quickchart.io", 443);
 	}
 
-	
-	public AFSChartService(String scheme, String host, Integer port) {
+    /**
+     *
+     * @param scheme
+     * @param host
+     * @param port
+     */
+    public AFSChartService(String scheme, String host, Integer port) {
 		this.scheme = scheme;
 		this.host = host;
 		this.port = port;

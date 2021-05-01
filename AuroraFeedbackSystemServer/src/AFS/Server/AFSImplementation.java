@@ -23,8 +23,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
- *
- * @author ransa
+ * AFS Implementation Class
+ * @author Malindu Ransara Nawarathne
  */
 public class AFSImplementation extends UnicastRemoteObject implements AFSInterface {
     private static final long serialVersionUID = -3763231206310448L;

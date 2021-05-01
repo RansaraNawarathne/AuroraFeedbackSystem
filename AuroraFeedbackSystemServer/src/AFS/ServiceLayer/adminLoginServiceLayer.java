@@ -9,11 +9,21 @@ import com.mysql.jdbc.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Administrator Login Service Layer
+ * @author Malindu Ransara Nawarathne
+ */
 public class adminLoginServiceLayer {
     private static Connection conn;
     private static Statement state;
     private static ResultSetImpl rsts;
     
+    /**
+     * Validate Administrator credentials
+     * @param uname: Username
+     * @param password: Password
+     * @return the authorization status
+     */
     public static boolean validateAdmin (String uname, String password) {
         try {
             String finalRes = "";

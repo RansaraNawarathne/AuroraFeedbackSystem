@@ -1,23 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.FrontEnd;
 
-import AFS.Interface.AFSInterface;
+import AFS.FrontEnd.EventHandlers.TerminateEventHandler;
 import AFS.Interface.AFSRMIConnector;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
+import AFS.ServiceLayer.adminSessionManagement;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
- *
- * @author ransa
+ * Send Email GUI (JFrame)
+ * @author Malindu Ransara Nawarathne
  */
 public class sendDriverEmail extends javax.swing.JFrame {
 
@@ -25,8 +19,17 @@ public class sendDriverEmail extends javax.swing.JFrame {
      * Creates new form sendDriverEmail
      */
     public sendDriverEmail() {
-        initComponents();
-        this.setLocationRelativeTo(null);
+        //To prevent unauthorize access
+        boolean statusCookie = false;
+        statusCookie = adminSessionManagement.sessionValidate();
+        if ( statusCookie == false ) {
+            new adminLogin().setVisible(true);
+            this.dispose();
+        } else {
+            initComponents();
+            //To center the window in the display
+            this.setLocationRelativeTo(null);
+        }
     }
 
     /**
@@ -49,6 +52,7 @@ public class sendDriverEmail extends javax.swing.JFrame {
         txtRecMsg = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        btnLogout3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -103,17 +107,27 @@ public class sendDriverEmail extends javax.swing.JFrame {
             }
         });
 
+        btnLogout3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AFS/Resources/Logout.png"))); // NOI18N
+        btnLogout3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLogout3MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton3)
+                        .addGap(107, 107, 107)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
@@ -122,11 +136,11 @@ public class sendDriverEmail extends javax.swing.JFrame {
                     .addComponent(txtRecEmail)
                     .addComponent(txtRecSubject)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE))
-                .addContainerGap(351, Short.MAX_VALUE))
+                .addContainerGap(369, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(34, 34, 34))
+                .addComponent(btnLogout3)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,9 +161,11 @@ public class sendDriverEmail extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(29, 29, 29))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnLogout3)
+                    .addComponent(jButton3))
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(236, 124, 124));
@@ -220,38 +236,40 @@ public class sendDriverEmail extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-        // TODO add your handling code here:
+        // To minimize the current window
         this.setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jLabel10MouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        // TODO add your handling code here:
-        System.exit(0);
+        // Terminate event
+        TerminateEventHandler te = new TerminateEventHandler();
+        te.actionPerformed(null);
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        // To close to current window and to open home window
         new adminHome().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        // To Clear textfields
         txtRecEmail.setText("");
         txtRecSubject.setText("");
         txtRecMsg.setText("");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        // To Send Email
         try {
-            // TODO add your handling code here:
+            // Fetching textfields values
             String recEmail = txtRecEmail.getText();
             String resSub = txtRecSubject.getText();
             String resMsg = txtRecMsg.getText();
             
             System.out.println("Starting submitting values to the server...");
-            //AFSInterface ansSet1 = (AFSInterface) Naming.lookup("rmi://localhost/AFSServer2021");
+            
+            //Creating AFSRMIConnector object
             AFSRMIConnector ansSet1 = new AFSRMIConnector();
             ansSet1.afsconnector().sendEmail (recEmail, resSub, resMsg);
             System.out.println("Values are successfully send to the server....");
@@ -261,6 +279,13 @@ public class sendDriverEmail extends javax.swing.JFrame {
             Logger.getLogger(submit.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnLogout3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogout3MouseClicked
+        // To Logout from the system
+        adminSessionManagement.resetCookie();
+        new adminLogin().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLogout3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -298,6 +323,7 @@ public class sendDriverEmail extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnLogout3;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

@@ -10,11 +10,20 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Question Service Layer
+ * @author Malindu Ransara Nawarathne
+ */
 public class questionServiceLayer {
     private static Connection conn;
     private static Statement state;
     private static ResultSetImpl rsts;
     
+    /**
+     * Get questions from the database
+     * @param qno: Question number
+     * @return the question found
+     */
     public static question retrieveQuestions ( int qno ) {
         try {
             conn = DatabaseConnection.getInstance().getConnection();

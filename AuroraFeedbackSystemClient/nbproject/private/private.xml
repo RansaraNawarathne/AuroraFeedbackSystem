@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="2">
+        <file>
+            <url>src/AFS/FrontEnd/addNewVehicle.java</url>
+            <bookmark id="2">
+                <name/>
+                <line>16</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemClient/src/AFS/FrontEnd/editDriver.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemClient/src/AFS/FrontEnd/editReservation.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemClient/src/AFS/FrontEnd/viewDriverInfo.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemClient/src/AFS/FrontEnd/viewReservation.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemClient/src/AFS/Interface/AFSInterface.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemClient/src/AFS/FrontEnd/adminHome.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemClient/src/AFS/FrontEnd/addNewReservation.java</file>
-            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemClient/src/AFS/FrontEnd/editVehicle.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

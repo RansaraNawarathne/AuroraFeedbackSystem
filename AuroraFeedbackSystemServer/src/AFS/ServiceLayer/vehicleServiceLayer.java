@@ -1,9 +1,4 @@
-//Vehicle Service Layer
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.ServiceLayer;
 
 import AFS.DatabaseLayer.DatabaseConnection;
@@ -17,8 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author ransa
+ * Vehicle Service Layer
+ * @author Malindu Ransara Nawarathne
  */
 public class vehicleServiceLayer {
     private static Connection conn;
@@ -26,6 +21,11 @@ public class vehicleServiceLayer {
     private static Statement state;
     private static ResultSetImpl rsts;
     
+    /**
+     * Save new vehicle data in to the database
+     * @param veh: Vehicle object
+     * @return the status of the process
+     */
     public boolean saveVehicle ( vehicle veh ) {
         try {
             boolean statusRes = false;
@@ -45,6 +45,11 @@ public class vehicleServiceLayer {
         return false;
     }
     
+    /**
+     * Search vehicle records in the database
+     * @param seaVehNum: Vehicle plate number
+     * @return the vehicle record found
+     */
     public vehicle searchVehicle ( String seaVehNum ) {
         try {
             vehicle veh1 = null;
@@ -64,6 +69,12 @@ public class vehicleServiceLayer {
         return null;
     }
     
+    /**
+     * Update vehicle records values
+     * @param seaVehNum: vehicle plate number
+     * @param veh2: Vehicle object with the updated values
+     * @return the status of the process
+     */
     public boolean editVehicle ( String seaVehNum, vehicle veh2 ) {
         try {
             boolean statusRes = false;
@@ -83,6 +94,11 @@ public class vehicleServiceLayer {
         return false;
     }
     
+    /**
+     * Delete vehicle records in the database
+     * @param seaVehNum: Vehicle plate number
+     * @return the status of the process
+     */
     public boolean deleteDriver ( String seaVehNum ) {
         try {
             boolean statusRes = false;

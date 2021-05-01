@@ -1,12 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.FrontEnd;
 
+import AFS.FrontEnd.EventHandlers.TerminateEventHandler;
 import AFS.Interface.AFSRMIConnector;
 import AFS.Models.reservation;
+import AFS.ServiceLayer.adminSessionManagement;
 import AFS.Utilities.invoiceNullValueException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
@@ -15,8 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author ransa
+ * View Reservation GUI (JFrame)
+ * @author Malindu Ransara Nawarathne
  */
 public class viewReservation extends javax.swing.JFrame {
 
@@ -24,8 +22,17 @@ public class viewReservation extends javax.swing.JFrame {
      * Creates new form viewReservation
      */
     public viewReservation() {
-        initComponents();
-        this.setLocationRelativeTo(null);
+        //To prevent unauthorize access
+        boolean statusCookie = false;
+        statusCookie = adminSessionManagement.sessionValidate();
+        if ( statusCookie == false ) {
+            new adminLogin().setVisible(true);
+            this.dispose();
+        } else {
+            initComponents();
+            //To center the window in the display
+            this.setLocationRelativeTo(null);
+        }
     }
 
     /**
@@ -48,6 +55,7 @@ public class viewReservation extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         lblDriverID = new javax.swing.JLabel();
         lblVehicleID = new javax.swing.JLabel();
+        btnLogout3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -101,35 +109,46 @@ public class viewReservation extends javax.swing.JFrame {
         lblVehicleID.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblVehicleID.setForeground(new java.awt.Color(255, 255, 255));
 
+        btnLogout3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AFS/Resources/Logout.png"))); // NOI18N
+        btnLogout3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLogout3MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(145, 145, 145)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtSeaInvNum)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                        .addGap(145, 145, 145)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtSeaInvNum)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblInvNum)
+                                    .addComponent(lblDriverID)
+                                    .addComponent(lblVehicleID))
+                                .addGap(316, 316, 316)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblInvNum)
-                            .addComponent(lblDriverID)
-                            .addComponent(lblVehicleID))
-                        .addGap(316, 316, 316)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(42, 42, 42))
+                        .addGap(39, 39, 39)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLogout3)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,9 +170,11 @@ public class viewReservation extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(lblVehicleID))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(38, 38, 38))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnLogout3)
+                    .addComponent(jButton2))
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(236, 124, 124));
@@ -231,7 +252,8 @@ public class viewReservation extends javax.swing.JFrame {
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
         // Terminate event
-        System.exit(0);
+        TerminateEventHandler te = new TerminateEventHandler();
+        te.actionPerformed(null);
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -275,6 +297,13 @@ public class viewReservation extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnLogout3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogout3MouseClicked
+        // To Logout from the system
+        adminSessionManagement.resetCookie();
+        new adminLogin().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLogout3MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -311,6 +340,7 @@ public class viewReservation extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnLogout3;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

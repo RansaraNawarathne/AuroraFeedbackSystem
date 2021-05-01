@@ -1,12 +1,15 @@
 package AFS.DatabaseLayer;
 
-//import java.sql.Connection;
 import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Database Connection Class
+ * @author Malindu Ransara Nawarathne
+ */
 public class DatabaseConnection {
     private Connection con;
     private static DatabaseConnection dcon;
@@ -23,6 +26,12 @@ public class DatabaseConnection {
 
     }
 
+    /**
+     * Create database connection instance
+     * @return the database connection
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public static DatabaseConnection getInstance() throws ClassNotFoundException, SQLException {
         if (dcon == null) {
             dcon = new DatabaseConnection();
@@ -30,6 +39,10 @@ public class DatabaseConnection {
         return dcon;
     }
 
+    /**
+     * Create the connection
+     * @return the connection
+     */
     public Connection getConnection() {
         return con;
     }

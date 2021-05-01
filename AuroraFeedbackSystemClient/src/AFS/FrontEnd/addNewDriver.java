@@ -1,13 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.FrontEnd;
 
 import AFS.FrontEnd.EventHandlers.TerminateEventHandler;
 import AFS.Interface.AFSRMIConnector;
 import AFS.Models.driver;
+import AFS.ServiceLayer.adminSessionManagement;
 import AFS.Utilities.*;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
@@ -16,8 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author ransa
+ * Add New Driver GUI (JFrame)
+ * @author Malindu Ransara Nawarathne
  */
 public class addNewDriver extends javax.swing.JFrame {
 
@@ -25,9 +22,17 @@ public class addNewDriver extends javax.swing.JFrame {
      * Creates new form addNewDriver
      */
     public addNewDriver() {
-        initComponents();
-        //To center the window in the display
-        this.setLocationRelativeTo(null);
+        //To prevent unauthorize access
+        boolean statusCookie = false;
+        statusCookie = adminSessionManagement.sessionValidate();
+        if ( statusCookie == false ) {
+            new adminLogin().setVisible(true);
+            this.dispose();
+        } else {
+            initComponents();
+            //To center the window in the display
+            this.setLocationRelativeTo(null);
+        }   
     }
 
     /**
@@ -52,6 +57,7 @@ public class addNewDriver extends javax.swing.JFrame {
         txtAddress = new javax.swing.JTextField();
         btnAddDrv = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        btnLogout3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -109,6 +115,13 @@ public class addNewDriver extends javax.swing.JFrame {
             }
         });
 
+        btnLogout3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AFS/Resources/Logout.png"))); // NOI18N
+        btnLogout3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLogout3MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -135,6 +148,10 @@ public class addNewDriver extends javax.swing.JFrame {
                     .addComponent(txtAge, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(376, 376, 376))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLogout3)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,7 +180,9 @@ public class addNewDriver extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddDrv)
                     .addComponent(btnCancel))
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnLogout3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(236, 124, 124));
@@ -241,12 +260,14 @@ public class addNewDriver extends javax.swing.JFrame {
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
         // Terminate event
-        System.exit(0);
+        TerminateEventHandler te = new TerminateEventHandler();
+        te.actionPerformed(null);
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void btnAddDrvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDrvActionPerformed
         // Add Driver Function
         try {
+            //Initializing and declaring variables
             String name = "";
             String ageVal = "";
             String email = "";
@@ -292,13 +313,6 @@ public class addNewDriver extends javax.swing.JFrame {
             AFSRMIConnector saveNewDriver = new AFSRMIConnector();
             subStatus = saveNewDriver.afsconnector().addNewDriver(drv);
             
-            //Testing purpose
-            System.out.println("Name: " + name);
-            System.out.println("Age:" + age);
-            System.out.println("Email: " + email);
-            System.out.println("Contact Number: " + conNumVal);
-            System.out.println("Address: " + address);
-            
             //Verifying whether the data is saved in the database
             if ( subStatus == true ) {
                 System.out.println("Values are successfully send to the server....");
@@ -332,10 +346,16 @@ public class addNewDriver extends javax.swing.JFrame {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // Terminate current window and returning to the home window
-        //btnCancel.addActionListener(new TerminateEventHandler());
         new adminHome().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnLogout3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogout3MouseClicked
+        // To Logout from the system
+        adminSessionManagement.resetCookie();
+        new adminLogin().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLogout3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -375,6 +395,7 @@ public class addNewDriver extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddDrv;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JLabel btnLogout3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

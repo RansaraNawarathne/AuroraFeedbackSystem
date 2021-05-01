@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.FrontEnd;
 
 import AFS.FrontEnd.EventHandlers.TerminateEventHandler;
 import AFS.Interface.AFSRMIConnector;
 import AFS.Models.vehicle;
+import AFS.ServiceLayer.adminSessionManagement;
 import AFS.Utilities.*;
 import java.rmi.RemoteException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,8 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author ransa
+ * Add new vehicle GUI (JFrame)
+ * @author Malindu Ransara Nawarathne
  */
 public class addNewVehicle extends javax.swing.JFrame {
 
@@ -27,8 +23,17 @@ public class addNewVehicle extends javax.swing.JFrame {
      * Creates new form addNewVehicle
      */
     public addNewVehicle() {
-        initComponents();
-        this.setLocationRelativeTo(null);
+        //To prevent unauthorize access
+        boolean statusCookie = false;
+        statusCookie = adminSessionManagement.sessionValidate();
+        if ( statusCookie == false ) {
+            new adminLogin().setVisible(true);
+            this.dispose();
+        } else {
+            initComponents();
+            //To center the window in the display
+            this.setLocationRelativeTo(null);
+        }
     }
 
     /**
@@ -57,6 +62,7 @@ public class addNewVehicle extends javax.swing.JFrame {
         txtYom = new javax.swing.JTextField();
         btnAddVeh = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        btnLogout3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -125,6 +131,13 @@ public class addNewVehicle extends javax.swing.JFrame {
             }
         });
 
+        btnLogout3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AFS/Resources/Logout.png"))); // NOI18N
+        btnLogout3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLogout3MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -163,7 +176,11 @@ public class addNewVehicle extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btnAddVeh))
                                     .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                .addContainerGap(319, Short.MAX_VALUE))))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLogout3)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,7 +217,9 @@ public class addNewVehicle extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddVeh)
                     .addComponent(btnCancel))
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(btnLogout3)
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(236, 124, 124));
@@ -273,25 +292,26 @@ public class addNewVehicle extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-        // TODO add your handling code here:
+        // To minimize the current window
         this.setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jLabel10MouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        // TODO add your handling code here:
-        System.exit(0);
+        // To close the current window and to close the application
+        TerminateEventHandler te = new TerminateEventHandler();
+        te.actionPerformed(null);
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
-        //btnCancel.addActionListener(new TerminateEventHandler());
+        // To termiante the current window and to open to home window
         new adminHome().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnAddVehActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddVehActionPerformed
-        // TODO add your handling code here:
+        // To add new vehicle
         try {
+            //Initialize and declare variables
             String vehNumber = "";
             String vehBrand = "";
             String vehYOM = "";
@@ -310,6 +330,7 @@ public class addNewVehicle extends javax.swing.JFrame {
             Date systemDate = new Date();            
             cYear = systemDate.getYear()+1900;
             
+            //Fetch values from textfields
             vehNumber = txtVehNo.getText();
             vehBrand = txtVeBrand.getText();
             vehYOM = txtYom.getText();
@@ -318,6 +339,7 @@ public class addNewVehicle extends javax.swing.JFrame {
             conNumber = txtConNumber.getText();
             address = txtAddress.getText();
             
+            //Validate fetched values
             if ( vehNumber.trim().isEmpty() ) {
                 throw new VehicleNumberNullException();
             }
@@ -346,11 +368,15 @@ public class addNewVehicle extends javax.swing.JFrame {
                 throw new AddressNullValueException();
             }
             
+            //Create vehicle object
             vehicle veh = new vehicle(vehNumber, vehBrand, vehYOM, name, email, conNum, address);
+            
+            //Create AFSRMIConnector
             AFSRMIConnector saveNewVehicle = new AFSRMIConnector();
             
             subStatus = saveNewVehicle.afsconnector().addNewVehicle( veh );
             
+            //Validate whether the values are saved or not
             if ( subStatus == true ) {
                 System.out.println("Values are successfully send to the server....");
                 JOptionPane.showMessageDialog(this, "Vehicle is successfully saved!", "Status", 1);
@@ -385,6 +411,13 @@ public class addNewVehicle extends javax.swing.JFrame {
             Logger.getLogger(addNewVehicle.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAddVehActionPerformed
+
+    private void btnLogout3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogout3MouseClicked
+        // To Logout from the system
+        adminSessionManagement.resetCookie();
+        new adminLogin().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLogout3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -424,6 +457,7 @@ public class addNewVehicle extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddVeh;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JLabel btnLogout3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

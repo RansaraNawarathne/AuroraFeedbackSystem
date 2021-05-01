@@ -1,29 +1,38 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.Models;
 
 import java.io.Serializable;
 
 /**
- *
- * @author ransa
+ * Result model class
+ * @author Malindu Ransara Nawarathne
  */
 public class result implements Serializable{
     private int qno;
     private String answer;
 
+    /**
+     * Constructor: Create a reservation object
+     * @param qno: Question number
+     * @param answer: answer that provide by customer
+     */
     public result(int qno, String answer) {
         this.qno = qno;
         this.answer = answer;
     }
 
+    /**
+     * Get the question number
+     * @return the question number
+     */
     public int getQno() {
         return qno;
     }
 
+    /**
+     * Get the answer
+     * @return the answer
+     */
     public String getAnswer() {
         return answer;
     }

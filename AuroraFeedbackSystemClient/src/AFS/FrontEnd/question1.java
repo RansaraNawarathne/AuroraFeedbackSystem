@@ -1,25 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.FrontEnd;
 
 import AFS.Models.result;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import AFS.ServiceLayer.resultServiceLayer;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author ransa
+ * Question 1 GUI (JFrame)
+ * @author Malindu Ransara Nawarathne
  */
 public class question1 extends javax.swing.JFrame {
 
@@ -27,12 +15,10 @@ public class question1 extends javax.swing.JFrame {
      * Creates new form question4
      */
     
-    public question1( int dirtyBit ) {
+    public question1() {
         initComponents();
+        //To center the current window in the display
         this.setLocationRelativeTo(null);
-        if ( dirtyBit == 1 ) {
-            getAnswer();
-        }
     }
 
     /**
@@ -138,18 +124,23 @@ public class question1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        String ageVal = null;
-        ageVal = txtAge.getText();
-        System.out.println("Age: "+ageVal);
+        // To submit question 1 answer
         
+        //Initializing and declaring variable
+        String ageVal = null;
+        
+        //Fetching customer response
+        ageVal = txtAge.getText();
+        
+        //Validating the age of the customer
         if ( ageVal.compareTo("") != 0 )
         {
             int age = 0;
             age = Integer.parseInt(ageVal);
             if ( age > 16 && age < 80 ) {
                 result rs1 = new result ( 1, ageVal );
-                saveAnswer ( rs1 );
+                resultServiceLayer restsl = new resultServiceLayer();
+                restsl.saveAnswer ( rs1, 1 );
                 new question2().setVisible(true);
                 this.dispose();
             } else {
@@ -162,52 +153,10 @@ public class question1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void exitIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitIconMouseClicked
-        // TODO add your handling code here:
+        // To close the window and to close the application
         System.exit(0);
     }//GEN-LAST:event_exitIconMouseClicked
 
-    public void saveAnswer ( result res ) {
-        FileOutputStream FileOutStr = null;
-        try {
-            FileOutStr = new FileOutputStream(new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\localResults\\ans1.afs"));
-            ObjectOutputStream OutStr = new ObjectOutputStream(FileOutStr);
-            OutStr.writeObject(res);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                FileOutStr.close();
-            } catch (IOException ex) {
-                Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
-    public void getAnswer () {
-        FileInputStream FileInpStr = null;
-        try {
-            FileInpStr = new FileInputStream(new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\localResults\\ans1.afs"));
-            ObjectInputStream InpStr = new ObjectInputStream(FileInpStr);
-            result getRes = (result) InpStr.readObject();
-            String getVal = "";
-            getVal = getRes.getAnswer();
-            txtAge.setText(getVal);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                FileInpStr.close();
-            } catch (IOException ex) {
-                Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
     /**
      * @param args the command line arguments
      */
@@ -241,7 +190,7 @@ public class question1 extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new question1(0).setVisible(true);
+                new question1().setVisible(true);
             }
         });
     }

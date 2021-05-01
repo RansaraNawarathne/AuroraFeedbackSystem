@@ -6,11 +6,19 @@ package AFS.ServiceLayer;
 import AFS.Models.analytic;
 import AFS.Models.question;
 import io.quickchart.QuickChart;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+/**
+ * AFS Chart Generator Class
+ * @author Malindu Ransara Nawarathne
+ */
 public class AFSChartGenerator {
+
+    /**
+     * Generate Chart
+     * @param chartType: Chart Type 
+     * @param qno: Question Number
+     * @return the URL of the Generated Chart 
+     */
     public String generateChart ( String chartType, int qno ) {
         String charturl = "";
         question ques = null;

@@ -1,12 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.FrontEnd;
 
+import AFS.FrontEnd.EventHandlers.TerminateEventHandler;
 import AFS.Interface.AFSRMIConnector;
 import AFS.Models.vehicle;
+import AFS.ServiceLayer.adminSessionManagement;
 import AFS.Utilities.AddressNullValueException;
 import AFS.Utilities.ConNullValueException;
 import AFS.Utilities.EmailNullValueException;
@@ -22,8 +20,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author ransa
+ * Edit Vehicle GUI (JFrame)
+ * @author Malindu Ransara Nawarathne
  */
 public class editVehicle extends javax.swing.JFrame {
 
@@ -31,8 +29,17 @@ public class editVehicle extends javax.swing.JFrame {
      * Creates new form editVehicle
      */
     public editVehicle() {
-        initComponents();
-        this.setLocationRelativeTo(null);
+        //To prevent unauthorize access
+        boolean statusCookie = false;
+        statusCookie = adminSessionManagement.sessionValidate();
+        if ( statusCookie == false ) {
+            new adminLogin().setVisible(true);
+            this.dispose();
+        } else {
+            initComponents();
+            //To center the window in the display
+            this.setLocationRelativeTo(null);
+        }
     }
 
     /**
@@ -65,6 +72,7 @@ public class editVehicle extends javax.swing.JFrame {
         btnCancel = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        btnLogout3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -155,6 +163,13 @@ public class editVehicle extends javax.swing.JFrame {
             }
         });
 
+        btnLogout3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AFS/Resources/Logout.png"))); // NOI18N
+        btnLogout3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLogout3MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -174,7 +189,7 @@ public class editVehicle extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
                         .addComponent(btnDelete)
                         .addGap(18, 18, 18)
                         .addComponent(btnUpdate))
@@ -189,7 +204,9 @@ public class editVehicle extends javax.swing.JFrame {
                     .addComponent(txtEmail)
                     .addComponent(txtConNum)
                     .addComponent(txtAddress))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLogout3)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,6 +250,10 @@ public class editVehicle extends javax.swing.JFrame {
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete))
                 .addContainerGap(33, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLogout3)
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(236, 124, 124));
@@ -305,7 +326,8 @@ public class editVehicle extends javax.swing.JFrame {
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
         // To Exit from the current JFrame
-        System.exit(0);
+        TerminateEventHandler te = new TerminateEventHandler();
+        te.actionPerformed(null);
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
@@ -314,8 +336,9 @@ public class editVehicle extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel10MouseClicked
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+         // To Search Vehicle
         try {
-            // To Search Vehicle
+            //Initializing and declaring variables and objects
             String seaVehNum = "";
             vehicle veh = null;
 
@@ -359,8 +382,9 @@ public class editVehicle extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // To Update Vehicle information
         try {
-            // To Update Vehicle information
+            //Initializing and declaring variables
             String seaVehNum = "";
             String vehNumber = "";
             String vehBrand = "";
@@ -380,6 +404,7 @@ public class editVehicle extends javax.swing.JFrame {
             Date systemDate = new Date();
             cYear = systemDate.getYear() + 1900;
             
+            //Fetching textfield values
             seaVehNum = txtSeaVehNum.getText();
             vehNumber = txtVehNum.getText();
             vehBrand = txtVehBrand.getText();
@@ -465,8 +490,9 @@ public class editVehicle extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // To Update Vehicle information
         try {
-            // To delete vehicle records
+            //Initializing and declaring variables
             String seaVehNum = "";
             boolean subStatus = false;
             
@@ -510,6 +536,13 @@ public class editVehicle extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
+    private void btnLogout3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogout3MouseClicked
+        // To Logout from the system
+        adminSessionManagement.resetCookie();
+        new adminLogin().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLogout3MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -548,6 +581,7 @@ public class editVehicle extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JLabel btnLogout3;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;

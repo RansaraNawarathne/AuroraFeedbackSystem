@@ -1,23 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.FrontEnd;
 
 import AFS.Models.result;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import AFS.ServiceLayer.resultServiceLayer;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author ransa
+ * Question 2 GUI (JFrame)
+ * @author Malindu Ransara Nawarathne
  */
 public class question2 extends javax.swing.JFrame {
 
@@ -26,6 +16,7 @@ public class question2 extends javax.swing.JFrame {
      */
     public question2() {
         initComponents();
+        //To center the current window in the display
         this.setLocationRelativeTo(null);
     }
 
@@ -181,9 +172,13 @@ public class question2 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        // To submit question 2 answers
+        
+        //Initializing and declaring variable
         boolean ansStatus = false;
         String ansValue = "";
+        
+        //Fetching selected values
         if ( btnPunctual.isSelected() )
         {
             System.out.println("Puntual");
@@ -206,10 +201,12 @@ public class question2 extends javax.swing.JFrame {
             ansStatus = false;
             ansValue = "Empty";
         }
-        System.out.println(ansStatus+" "+ansValue);
+        
+        // Validating the whether the value is selected or not
          if ( ansStatus == true ) {
             result rs2 = new result ( 2, ansValue );
-            saveAnswer ( rs2 );
+            resultServiceLayer restsl = new resultServiceLayer();
+            restsl.saveAnswer ( rs2, 2 );
             new question3().setVisible(true);
             this.dispose();
          } else {
@@ -218,34 +215,16 @@ public class question2 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void exitIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitIconMouseClicked
-        // TODO add your handling code here:
+        // To terminate application
         System.exit(0);
     }//GEN-LAST:event_exitIconMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        new question1(1).setVisible(true);
+        // To return to question 1 window
+        new question1().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    public void saveAnswer ( result res ) {
-        FileOutputStream FileOutStr = null;
-        try {
-            FileOutStr = new FileOutputStream(new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\localResults\\ans2.afs"));
-            ObjectOutputStream OutStr = new ObjectOutputStream(FileOutStr);
-            OutStr.writeObject(res);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                FileOutStr.close();
-            } catch (IOException ex) {
-                Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
     /**
      * @param args the command line arguments
      */

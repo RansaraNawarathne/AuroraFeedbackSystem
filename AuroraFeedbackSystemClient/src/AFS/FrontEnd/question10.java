@@ -1,22 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.FrontEnd;
 
 import AFS.Models.result;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import AFS.ServiceLayer.resultServiceLayer;
 
 /**
- *
- * @author ransa
+ * Question 10 GUI (JFrame)
+ * @author Malindu Ransara Nawarathne
  */
 public class question10 extends javax.swing.JFrame {
 
@@ -25,6 +15,7 @@ public class question10 extends javax.swing.JFrame {
      */
     public question10() {
         initComponents();
+        // To  center the current window in the display
         this.setLocationRelativeTo(null);
     }
 
@@ -151,51 +142,39 @@ public class question10 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        // To submit question 10 answer
+        
+        //Initializing variable
         String veh = "";
+        
+        //Fetching value
         veh = cmBoxVehName.getSelectedItem().toString();
-        //Testing purpose
-        System.out.println(veh);
         if ( !"Choose".equals(veh)){
           result rs10 = new result ( 10, veh );
-          saveAnswer(rs10);
+          resultServiceLayer restsl = new resultServiceLayer();
+          restsl.saveAnswer(rs10, 10);
         } else {
             result rs10 = new result ( 10, "New User" );
-          saveAnswer(rs10);
+            resultServiceLayer restsl = new resultServiceLayer();
+            restsl.saveAnswer(rs10, 10);
         }
+        
+        //Termiante current window and to open submit window 
         new submit().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        // To return to question 9 window
         new question9().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void exitIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitIconMouseClicked
-        // TODO add your handling code here:
+        // To terminate application
         System.exit(0);
     }//GEN-LAST:event_exitIconMouseClicked
-
-    public void saveAnswer ( result res ) {
-        FileOutputStream FileOutStr = null;
-        try {
-            FileOutStr = new FileOutputStream(new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\localResults\\ans10.afs"));
-            ObjectOutputStream OutStr = new ObjectOutputStream(FileOutStr);
-            OutStr.writeObject(res);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                FileOutStr.close();
-            } catch (IOException ex) {
-                Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+  
     /**
      * @param args the command line arguments
      */

@@ -19,8 +19,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
- *
- * @author ransa
+ * AFS Email Service Layer
+ * @author Malindu Ransara Nawarathne
  */
 public class AFSEmailService {
     
@@ -30,6 +30,12 @@ public class AFSEmailService {
     private String recSubject;
     private String msg;
 
+    /**
+     * Constructor: Create AFSEmailService object
+     * @param recEmail: Receiver email address
+     * @param recSubject: Subject of the email
+     * @param msg: Message of the email
+     */
     public AFSEmailService(String recEmail, String recSubject, String msg) {
         email = "malindurnawarathne@gmail.com";
         upassword = "indura1234";
@@ -38,18 +44,34 @@ public class AFSEmailService {
         this.msg = msg;
     }
 
+    /**
+     * Get the message
+     * @return the message
+     */
     public String getMsg() {
         return msg;
     }
 
+    /**
+     * Get receiver email address
+     * @return the receiver email
+     */
     public String getRecEmail() {
         return recEmail;
     }
 
+    /**
+     * Get subject
+     * @return the subject
+     */
     public String getRecSubject() {
         return recSubject;
     }
     
+    /**
+     * Get message
+     * @return the message
+     */
     public String sendMail(){
 
 	String Msg;

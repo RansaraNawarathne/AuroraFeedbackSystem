@@ -1,11 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.FrontEnd;
 
+import AFS.FrontEnd.EventHandlers.TerminateEventHandler;
 import AFS.Interface.AFSRMIConnector;
+import AFS.ServiceLayer.adminSessionManagement;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +19,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author ransa
+ * View vehicle information GUI (JFrame)
+ * @author Malindu Ransara Nawarathne
  */
 public class viewVehiclePerformance extends javax.swing.JFrame {
 
@@ -30,46 +28,63 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
      * Creates new form viewVehiclePerformance
      */
     public viewVehiclePerformance() {
-        initComponents();
-        this.setLocationRelativeTo(null);
-         boolean loadStatus = false;
-        String lstUpdate = "";
-        AFSRMIConnector generateChart = new AFSRMIConnector();
-        try {
-            loadStatus = generateChart.afsconnector().analyseData();
-        } catch (RemoteException ex) {
-            Logger.getLogger(viewDriverPerformance.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if ( loadStatus == true ) {
+        //To prevent unauthorize access
+        boolean statusCookie = false;
+        statusCookie = adminSessionManagement.sessionValidate();
+        if (statusCookie == false) {
+            new adminLogin().setVisible(true);
+            this.dispose();
+        } else {
+            initComponents();
+            
+            //To center the window in the display
+            this.setLocationRelativeTo(null);
+            
+            //Initialising variables
+            boolean loadStatus = false;
+            String lstUpdate = "";
+            
+            //Creating AFSRMIConnector
+            AFSRMIConnector generateChart = new AFSRMIConnector();
+            
+            //Analyze customer responses
             try {
-                String charturl = "";
-                BufferedImage chartimg = null;
-                charturl = generateChart.afsconnector().createChart("bar", 7);
-                System.out.println("Chart URL: " +charturl);
-                /*
-                2021. How to download Image from URL and save it in Java?. [online] Available at: <https://www.codercrunch.com/question/101501912/how-download-image-url-and-save-it-java>.
-                */
-                URL cUrl = new URL(charturl);
-                chartimg = ImageIO.read(cUrl);
-                ImageIO.write(chartimg, "png",new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart7.png"));
-                lstUpdate = lastUpdate();
-                /*
-                Narros, T., Verma, N., z, m. and Zaki, A., 2021. Java: how to add image to Jlabel?. [online] Stack Overflow. Available at: <https://stackoverflow.com/questions/3775373/java-how-to-add-image-to-jlabel#:~:text=You%20have%20to%20supply%20to,thumb%20%3D%20new%20JLabel()%3B%20thumb.>.
-                */
-                ImageIcon chr = new ImageIcon("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart7.png");
-                lblChart.setIcon(chr);
-                lblLastUpdate.setText("Last Update: "+lstUpdate);
-                chr = null;
+                loadStatus = generateChart.afsconnector().analyseData();
             } catch (RemoteException ex) {
                 Logger.getLogger(viewDriverPerformance.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(viewDriverPerformance.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(viewDriverPerformance.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Failedd to analysed data!", "Error!", 2);
-            lblLastUpdate.setText("Last Update: ");
+            if (loadStatus == true) {
+                //Generate chart
+                try {
+                    String charturl = "";
+                    BufferedImage chartimg = null;
+                    charturl = generateChart.afsconnector().createChart("bar", 7);
+                    System.out.println("Chart URL: " + charturl);
+                    /*
+                2021. How to download Image from URL and save it in Java?. [online] Available at: <https://www.codercrunch.com/question/101501912/how-download-image-url-and-save-it-java>.
+                     */
+                    URL cUrl = new URL(charturl);
+                    chartimg = ImageIO.read(cUrl);
+                    ImageIO.write(chartimg, "png", new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart7.png"));
+                    lstUpdate = lastUpdate();
+                    /*
+                Narros, T., Verma, N., z, m. and Zaki, A., 2021. Java: how to add image to Jlabel?. [online] Stack Overflow. Available at: <https://stackoverflow.com/questions/3775373/java-how-to-add-image-to-jlabel#:~:text=You%20have%20to%20supply%20to,thumb%20%3D%20new%20JLabel()%3B%20thumb.>.
+                     */
+                    ImageIcon chr = new ImageIcon("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart7.png");
+                    lblChart.setIcon(chr);
+                    lblLastUpdate.setText("Last Update: " + lstUpdate);
+                    chr = null;
+                } catch (RemoteException ex) {
+                    Logger.getLogger(viewDriverPerformance.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(viewDriverPerformance.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(viewDriverPerformance.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Failedd to analysed data!", "Error!", 2);
+                lblLastUpdate.setText("Last Update: ");
+            }
         }
     }
 
@@ -88,6 +103,7 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
         btnGenerateChart = new javax.swing.JButton();
         lblLastUpdate = new javax.swing.JLabel();
         btnMainMenu = new javax.swing.JButton();
+        btnLogout3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -118,6 +134,13 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
             }
         });
 
+        btnLogout3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AFS/Resources/Logout.png"))); // NOI18N
+        btnLogout3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLogout3MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -128,10 +151,12 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
                     .addComponent(lblLastUpdate)
                     .addComponent(lblChart, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(comboBoxQNum, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGenerateChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnMainMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(comboBoxQNum, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnGenerateChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnMainMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnLogout3))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -144,7 +169,9 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnGenerateChart)
                         .addGap(18, 18, 18)
-                        .addComponent(btnMainMenu))
+                        .addComponent(btnMainMenu)
+                        .addGap(134, 134, 134)
+                        .addComponent(btnLogout3))
                     .addComponent(lblChart, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(lblLastUpdate)
@@ -220,57 +247,70 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-        // TODO add your handling code here:
+        // To minimize the current window
         this.setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jLabel10MouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        // TODO add your handling code here:
-        System.exit(0);
+        // Terminate event
+        TerminateEventHandler te = new TerminateEventHandler();
+        te.actionPerformed(null);
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void btnGenerateChartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateChartActionPerformed
-    try {
+        // To generate chart according to the question number
+        try {
+            //Initialising variables
             String charturl = "";
             String questionNum = "";
             String lstUpdate = "";
             boolean analyseStatus = false;
             int qno = 0;
             BufferedImage chartimg = null;
+            
+            //Creating AFSRMIConnector object
             AFSRMIConnector generateChart = new AFSRMIConnector();
             analyseStatus = generateChart.afsconnector().analyseData();
-            if ( analyseStatus == true ) {
+            
+            //Validaing analyzing process
+            if (analyseStatus == true) {
+                //Fetching last update
                 lstUpdate = lastUpdate();
                 questionNum = comboBoxQNum.getSelectedItem().toString();
-            
-            if ( questionNum.compareTo("Question 7") == 0 ) {
-                qno = 7;
-            } else if ( questionNum.compareTo("Question 8") == 0 ) {
-                qno = 8;
-            } else if ( questionNum.compareTo("Question 9") == 0 ) {
-                qno = 9;
-            } else if ( questionNum.compareTo("Question 10") == 0 ) {
-                qno = 10;
-            }
-            charturl = generateChart.afsconnector().createChart("bar", qno);
-            System.out.println("Chart URL: " +charturl);
-            /*
+
+                if (questionNum.compareTo("Question 7") == 0) {
+                    qno = 7;
+                } else if (questionNum.compareTo("Question 8") == 0) {
+                    qno = 8;
+                } else if (questionNum.compareTo("Question 9") == 0) {
+                    qno = 9;
+                } else if (questionNum.compareTo("Question 10") == 0) {
+                    qno = 10;
+                }
+                
+                //Generating Chart URL
+                charturl = generateChart.afsconnector().createChart("bar", qno);
+                System.out.println("Chart URL: " + charturl);
+                /*
             2021. How to download Image from URL and save it in Java?. [online] Available at: <https://www.codercrunch.com/question/101501912/how-download-image-url-and-save-it-java>.
-            */
-            URL cUrl = new URL(charturl);
-            chartimg = ImageIO.read(cUrl);
-            ImageIO.write(chartimg, "png",new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart"+qno+".png"));
-            /*
+                 */
+                //Downloading image to local folder
+                URL cUrl = new URL(charturl);
+                chartimg = ImageIO.read(cUrl);
+                ImageIO.write(chartimg, "png", new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart" + qno + ".png"));
+                
+                /*
             Narros, T., Verma, N., z, m. and Zaki, A., 2021. Java: how to add image to Jlabel?. [online] Stack Overflow. Available at: <https://stackoverflow.com/questions/3775373/java-how-to-add-image-to-jlabel#:~:text=You%20have%20to%20supply%20to,thumb%20%3D%20new%20JLabel()%3B%20thumb.>.
-            */
-            ImageIcon chr = new ImageIcon("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart"+qno+".png");
-            lblChart.setIcon(chr);
-            lblLastUpdate.setText("Last Update: "+lstUpdate);
-            }  else {
-            JOptionPane.showMessageDialog(this, "Failedd to analysed data!", "Error!", 2);
-            lblLastUpdate.setText("Last Update: ");
-        }
-            
+                 */
+                //Displaying downloaded chart
+                ImageIcon chr = new ImageIcon("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart" + qno + ".png");
+                lblChart.setIcon(chr);
+                lblLastUpdate.setText("Last Update: " + lstUpdate);
+            } else {
+                JOptionPane.showMessageDialog(this, "Failedd to analysed data!", "Error!", 2);
+                lblLastUpdate.setText("Last Update: ");
+            }
+
         } catch (RemoteException ex) {
             Logger.getLogger(viewDriverPerformance.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
@@ -281,18 +321,29 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGenerateChartActionPerformed
 
     private void btnMainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainMenuActionPerformed
-        // TODO add your handling code here:
+        // To termiante the current window and to return to home window
         new adminHome().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnMainMenuActionPerformed
 
-    
-    public String lastUpdate () {
+    private void btnLogout3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogout3MouseClicked
+        // To Logout from the system
+        adminSessionManagement.resetCookie();
+        new adminLogin().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLogout3MouseClicked
+
+    /**
+     * Get last updated(analyzed) time and date 
+     * @return the time and date
+     */
+    public String lastUpdate() {
         String cDate = "";
         Date currentDate = new Date();
         cDate = currentDate.toString();
         return cDate;
     }
+
     /**
      * @param args the command line arguments
      */
@@ -330,6 +381,7 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerateChart;
+    private javax.swing.JLabel btnLogout3;
     private javax.swing.JButton btnMainMenu;
     private javax.swing.JComboBox<String> comboBoxQNum;
     private javax.swing.JLabel jLabel1;

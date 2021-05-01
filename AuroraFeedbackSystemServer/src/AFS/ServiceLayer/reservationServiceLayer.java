@@ -11,12 +11,21 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Reservation Service Layer
+ * @author Malindu Ransara Nawarathne
+ */
 public class reservationServiceLayer {
     private static Connection conn;
     private static Statement state;
     private static PreparedStatement prst;
     private static ResultSetImpl rsts;
     
+    /**
+     * Save new reservation data in to the database
+     * @param resv: Reservation object
+     * @return the status of the process
+     */
     public static boolean saveReservation ( reservation resv ) {
         try {
             conn = DatabaseConnection.getInstance().getConnection();
@@ -41,10 +50,17 @@ public class reservationServiceLayer {
         return false;
     }
     
+    /**
+     * Generate invoice number 
+     * @return the generated invoice number
+     */
     public static String generateInvoiceNo () {
         try {
             conn = DatabaseConnection.getInstance().getConnection();
             state = (Statement) conn.createStatement();
+            /*
+            Tutorialspoint.com. 2021. How to select last row in MySQL?. [online] Available at: <https://www.tutorialspoint.com/how-to-select-last-row-in-mysql>.
+            */
             rsts = (ResultSetImpl) state.executeQuery("SELECT `invNo` FROM `reservation` ORDER BY `invNo` DESC LIMIT 1;");
 
             String lstItemNo = "afs2021";
@@ -66,6 +82,11 @@ public class reservationServiceLayer {
         return null;
     }
     
+    /**
+     * Search reservation records in the database
+     * @param seaInvNo: Invoice number
+     * @return the reservations found
+     */
     public static reservation searchReservation ( String seaInvNo ) {
         try {
             reservation res2 = null;
@@ -85,6 +106,12 @@ public class reservationServiceLayer {
         return null;
     }
     
+    /**
+     * Update reservation records
+     * @param seaIinvNo: Invoice number
+     * @param res3: Reservation object with updated values
+     * @return the status of the project
+     */
     public static boolean editReservation ( String seaIinvNo, reservation res3 ) {
         try {
             boolean statusRes = false;
@@ -102,6 +129,11 @@ public class reservationServiceLayer {
         return false;
     }
     
+    /**
+     * Delete reservation records in the database
+     * @param seaInvNo: Invoice number
+     * @return the status of the process
+     */
     public static boolean deleteReservation ( String seaInvNo ) {
         try {
             boolean statusRes = false;

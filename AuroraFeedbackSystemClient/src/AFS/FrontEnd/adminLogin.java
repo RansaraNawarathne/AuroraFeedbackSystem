@@ -1,16 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.FrontEnd;
 
-import AFS.FrontEnd.EventHandlers.AdminLoginEventhandler;
-import AFS.Interface.AFSInterface;
 import AFS.Interface.AFSRMIConnector;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
+import AFS.Models.administrator;
+import AFS.ServiceLayer.adminSessionManagement;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,8 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author ransa
+ * Administrator Login GUI (JFrame)
+ * @author Malindu Ransara Nawarathne
  */
 public class adminLogin extends javax.swing.JFrame {
 
@@ -28,6 +21,7 @@ public class adminLogin extends javax.swing.JFrame {
      */
     public adminLogin() {
         initComponents();
+        // To center the window in the display 
         this.setLocationRelativeTo(null);
     }
 
@@ -254,19 +248,27 @@ public class adminLogin extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         try {
-            // TODO add your handling code here:
+            // To validate user
+            //Initializing and declaring variables
             String uname = "";
             String password = "";
-            String createCookie = "";
+            String serverKey = "";
             boolean validationRes = false;
+            
+            //Fetching textfield values
             uname = txtEmail.getText();
-            password = txtPassword.getText().toString();
-            //AFSInterface adminValidating = (AFSInterface) Naming.lookup("rmi://localhost/AFSServer2021");
+            password = txtPassword.getText();
+            
+            //Creating AFSRMINConnector object
             AFSRMIConnector adminValidating = new AFSRMIConnector();
             validationRes = adminValidating.afsconnector().validateAdminLogin(uname, password);
+            
+            //Validating credentials
             if (validationRes == true ) {
                 System.out.println("Successfully Logged In!");
-                btnLogin.addActionListener(new AdminLoginEventhandler());
+                serverKey = adminValidating.afsconnector().createCookie(uname);
+                administrator adminNew = new administrator(uname, password, serverKey);
+                adminSessionManagement.CreateCookie(adminNew);
                 new adminHome().setVisible(true);
                 this.dispose();
             } else {
@@ -279,15 +281,15 @@ public class adminLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        // TODO add your handling code here:
+        // To close the current window and to close the application
         System.exit(0);
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-        // TODO add your handling code here:
+        // To minimize the current window
         this.setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jLabel10MouseClicked
-
+    
     /**
      * @param args the command line arguments
      */

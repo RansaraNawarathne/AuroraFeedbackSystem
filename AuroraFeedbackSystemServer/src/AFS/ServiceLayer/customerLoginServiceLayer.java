@@ -9,11 +9,20 @@ import com.mysql.jdbc.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Customer Login Service Layer
+ * @author Malindu Ransara Nawarathne
+ */
 public class customerLoginServiceLayer {
     private static Connection conn;
     private static Statement state;
     private static ResultSetImpl rsts;
     
+    /**
+     * Validate User Credentials
+     * @param invNo: Invoice Number
+     * @return the authentication status
+     */
     public static boolean validateUser (String invNo) {
         try {
             String retData = "";

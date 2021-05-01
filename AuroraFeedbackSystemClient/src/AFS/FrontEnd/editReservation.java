@@ -1,12 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.FrontEnd;
 
+import AFS.FrontEnd.EventHandlers.TerminateEventHandler;
 import AFS.Interface.AFSRMIConnector;
 import AFS.Models.reservation;
+import AFS.ServiceLayer.adminSessionManagement;
 import AFS.Utilities.EmailNullValueException;
 import AFS.Utilities.VehicleNumberNullException;
 import AFS.Utilities.invoiceNullValueException;
@@ -17,8 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author ransa
+ * Edit Reservation GUI (JFrame)
+ * @author Malindu Ransara Nawarathne
  */
 public class editReservation extends javax.swing.JFrame {
 
@@ -27,8 +25,17 @@ public class editReservation extends javax.swing.JFrame {
      */
     
     public editReservation() {
-        initComponents();
-        this.setLocationRelativeTo(null);
+        //To prevent unauthorize access
+        boolean statusCookie = false;
+        statusCookie = adminSessionManagement.sessionValidate();
+        if ( statusCookie == false ) {
+            new adminLogin().setVisible(true);
+            this.dispose();
+        } else {
+            initComponents();
+            //To center the window in the display
+            this.setLocationRelativeTo(null);
+        }
     }
 
     /**
@@ -53,6 +60,7 @@ public class editReservation extends javax.swing.JFrame {
         btnUpdate = new javax.swing.JButton();
         btnSearch = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        btnLogout3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -121,6 +129,13 @@ public class editReservation extends javax.swing.JFrame {
             }
         });
 
+        btnLogout3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AFS/Resources/Logout.png"))); // NOI18N
+        btnLogout3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLogout3MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -149,7 +164,11 @@ public class editReservation extends javax.swing.JFrame {
                                 .addComponent(txtSeaInvNo, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnSearch)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(303, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLogout3)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,7 +195,9 @@ public class editReservation extends javax.swing.JFrame {
                     .addComponent(btnCancel)
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete))
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addComponent(btnLogout3)
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(236, 124, 124));
@@ -254,11 +275,12 @@ public class editReservation extends javax.swing.JFrame {
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
         // Terminate event
-        System.exit(0);
+        TerminateEventHandler te = new TerminateEventHandler();
+        te.actionPerformed(null);
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
+        // To close the current window and to return to home window
         //btnCancel.addActionListener(new TerminateEventHandler());
         new adminHome().setVisible(true);
         this.dispose();
@@ -267,17 +289,20 @@ public class editReservation extends javax.swing.JFrame {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // To update reservation information
         try {
+            //Initializing and declaring variables
             String seaInvNum = "";
             String invID = "";
             String drvID = "";
             String vehID = "";
             reservation resv1 = null;
 
+            //Fetchiing textfield values
             seaInvNum = txtSeaInvNo.getText();
             invID = lblInvNum.getText();
             drvID = txtDrvID.getText();
             vehID = txtVehID.getText();
 
+            //Validating fetched values
             if ( seaInvNum.trim().isEmpty() ) {
                 throw new invoiceNullValueException();
             }
@@ -291,12 +316,15 @@ public class editReservation extends javax.swing.JFrame {
                 throw new VehicleNumberNullException();
             }
 
+            //Creating reservation object
             resv1 = new reservation(invID, drvID, vehID);
 
+            //creating AFSRMIConnector object
             AFSRMIConnector ansSet1 = new AFSRMIConnector();
             boolean SubStatus = false;
             SubStatus = ansSet1.afsconnector().updateReservation(seaInvNum, resv1);
 
+            //Validting whether the values are successfully updated or not
             if (SubStatus == true) {
                 System.out.println("Values are successfully send to the server....");
                 JOptionPane.showMessageDialog(this, "Reservation is successfully updated!", "Status", 1);
@@ -320,8 +348,9 @@ public class editReservation extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        try {
-            // To search reservation:
+       // To search reservation:
+        try { 
+            //Initializing and declaring variables and objects
             String seaInvNum = "";
             reservation resv2 = null;
             
@@ -337,6 +366,7 @@ public class editReservation extends javax.swing.JFrame {
             AFSRMIConnector reservationManagement = new AFSRMIConnector();
             resv2 = reservationManagement.afsconnector().searchReservation( seaInvNum );
             
+            //Validating fetched fetched reservation object is null
             if ( resv2 != null ) {
                 lblInvNum.setText(resv2.getInvID());
                 txtDrvID.setText(resv2.getDrvID());
@@ -355,8 +385,9 @@ public class editReservation extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // To delete reservation info
         try {
-            // To delete reservation info
+            //Initializing and declaring variables
             String seaInvNum = "";
             boolean subStatus = false;
             
@@ -390,6 +421,13 @@ public class editReservation extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex1.getLocalizedMessage(), "Error!", 2);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnLogout3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogout3MouseClicked
+        // To Logout from the system
+        adminSessionManagement.resetCookie();
+        new adminLogin().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLogout3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -429,6 +467,7 @@ public class editReservation extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JLabel btnLogout3;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;

@@ -4,6 +4,7 @@ package AFS.FrontEnd;
 import AFS.FrontEnd.EventHandlers.TerminateEventHandler;
 import AFS.Interface.AFSRMIConnector;
 import AFS.Models.driver;
+import AFS.ServiceLayer.adminSessionManagement;
 import AFS.Utilities.AddressNullValueException;
 import AFS.Utilities.AgeNullValueException;
 import AFS.Utilities.AgeOutOfBoundException;
@@ -16,11 +17,27 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+/**
+ * Edit Driver Values GUI (JFrame)
+ * @author ransa
+ */
 public class editDriver extends javax.swing.JFrame {
 
+    /**
+     * Creates new form editDriver
+     */
     public editDriver() {
-        initComponents();
-        this.setLocationRelativeTo(null);
+        //To prevent unauthorize access
+        boolean statusCookie = false;
+        statusCookie = adminSessionManagement.sessionValidate();
+        if ( statusCookie == false ) {
+            new adminLogin().setVisible(true);
+            this.dispose();
+        } else {
+            initComponents();
+            //To center the window in the display
+            this.setLocationRelativeTo(null);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -44,6 +61,7 @@ public class editDriver extends javax.swing.JFrame {
         txtSeaEmail = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        btnLogout3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -122,6 +140,13 @@ public class editDriver extends javax.swing.JFrame {
             }
         });
 
+        btnLogout3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AFS/Resources/Logout.png"))); // NOI18N
+        btnLogout3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLogout3MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -152,7 +177,9 @@ public class editDriver extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSearch))
                     .addComponent(txtName, javax.swing.GroupLayout.Alignment.LEADING))
-                .addGap(388, 388, 388))
+                .addGap(333, 333, 333)
+                .addComponent(btnLogout3)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,6 +215,10 @@ public class editDriver extends javax.swing.JFrame {
                     .addComponent(btnCancel)
                     .addComponent(btnDelete))
                 .addContainerGap(50, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLogout3)
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(236, 124, 124));
@@ -264,19 +295,95 @@ public class editDriver extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel10MouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        // To Exit from the current JFrame
-        System.exit(0);
+        // Terminate event
+        TerminateEventHandler te = new TerminateEventHandler();
+        te.actionPerformed(null);
     }//GEN-LAST:event_jLabel9MouseClicked
 
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // Terminate current window and retruning to the home window
-        //btnCancel.addActionListener(new TerminateEventHandler());
-        new adminHome().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnCancelActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            // To delete driver records
+            String seaEmail = "";
+            boolean subStatus = false;
+
+            //Fetching textfield values
+            seaEmail = txtSeaEmail.getText();
+
+            //Validating fetched vlaues
+            if ( seaEmail.trim().isEmpty() ) {
+                throw new EmailNullValueException();
+            }
+
+            //Creating AFSRMIConnector object
+            AFSRMIConnector deleteDriver = new AFSRMIConnector();
+            subStatus = deleteDriver.afsconnector().deleteDriver(seaEmail);
+
+            //Verifying whether the data is deleted in the database
+            if ( subStatus == true ) {
+                System.out.println("Values are successfully send to the server....");
+                JOptionPane.showMessageDialog(this, "Driver is successfully deleted!", "Status", 1);
+                txtSeaEmail.setText("");
+                txtName.setText("");
+                txtEmail.setText("");
+                txtAge.setText("");
+                txtContactNumber.setText("");
+                txtAddress.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to delete Driver information!", "Error!", 2);
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(editDriver.class.getName()).log(Level.SEVERE, null, ex);
+        } catch ( EmailNullValueException ex1 ) {
+            JOptionPane.showMessageDialog(this, ex1.getLocalizedMessage(), "Error!", 2);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        try {
+            // To search driver
+            String seaEmail = "";
+            driver drv1 = null;
+
+            //Fetching textfield valus
+            seaEmail = txtSeaEmail.getText();
+
+            //Validating fetched values
+            if (seaEmail.trim().isEmpty()) {
+                throw new EmailNullValueException();
+            }
+
+            //Creting AFSRMIConnector object
+            AFSRMIConnector driverManagement = new AFSRMIConnector();
+            drv1 = driverManagement.afsconnector().searchdriver(seaEmail);
+
+            // Displaying data which are fetched from the database
+            if ( drv1 != null ) {
+                txtName.setText(drv1.getName());
+                txtEmail.setText(drv1.getEmail());
+                txtAge.setText(drv1.getAge()+"");
+                txtContactNumber.setText(drv1.getConNum()+"");
+                txtAddress.setText(drv1.getAddress());
+            } else {
+                JOptionPane.showMessageDialog(this, "Please enter a valid Email address!", "Error!", 2);
+                txtSeaEmail.setText("");
+                txtName.setText("");
+                txtEmail.setText("");
+                txtAge.setText("");
+                txtContactNumber.setText("");
+                txtAddress.setText("");
+            }
+
+        } catch (RemoteException ex) {
+            Logger.getLogger(editDriver.class.getName()).log(Level.SEVERE, null, ex);
+        } catch ( NullPointerException ex1 ) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid Email address!\n"+ex1.getLocalizedMessage(), "Error!", 2);
+        } catch ( EmailNullValueException ex2 ) {
+            JOptionPane.showMessageDialog(this, ex2.getLocalizedMessage(), "Error!", 2);
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnUpdateDrvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateDrvActionPerformed
-        // TO update driver information
+        // To update driver information
         try {
             String seaEmail = "";
             String name = "";
@@ -319,22 +426,15 @@ public class editDriver extends javax.swing.JFrame {
             conNum = Integer.parseInt(conNumVal);
             if ((address.trim().isEmpty()) || (address.length() < 10)) {
                 throw new AddressNullValueException();
-            }            
-            
+            }
+
             //Creating driver object
             driver drv2 = new driver(email, name, age, conNum, address);
-            
+
             //Creating AFSRMIConnector object
             AFSRMIConnector updateDriver = new AFSRMIConnector();
             subStatus = updateDriver.afsconnector().updateDriver( seaEmail, drv2 );
 
-            //Testing pupose
-            System.out.println("Name: " + name);
-            System.out.println("Age:" + age);
-            System.out.println("Email: " + email);
-            System.out.println("Contact Number: " + conNumVal);
-            System.out.println("Address: " + address);
-            
             //Verifying whether the data is updated in the database
             if ( subStatus == true ) {
                 System.out.println("Values are successfully send to the server....");
@@ -367,87 +467,19 @@ public class editDriver extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnUpdateDrvActionPerformed
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        try {
-            // To search driver
-            String seaEmail = "";
-            driver drv1 = null;
-            
-            //Fetching textfield valus
-            seaEmail = txtSeaEmail.getText();
-            
-            //Validating fetched values
-            if (seaEmail.trim().isEmpty()) {
-                throw new EmailNullValueException();
-            }
-            
-            //Creting AFSRMIConnector object
-            AFSRMIConnector driverManagement = new AFSRMIConnector();
-            drv1 = driverManagement.afsconnector().searchdriver(seaEmail);
-            
-            // Displaying data which are fetched from the database
-            if ( drv1 != null ) {
-            txtName.setText(drv1.getName());
-            txtEmail.setText(drv1.getEmail());
-            txtAge.setText(drv1.getAge()+"");
-            txtContactNumber.setText(drv1.getConNum()+"");
-            txtAddress.setText(drv1.getAddress());
-            } else {
-                JOptionPane.showMessageDialog(this, "Please enter a valid Email address!", "Error!", 2);
-                txtSeaEmail.setText("");
-                txtName.setText("");
-                txtEmail.setText("");
-                txtAge.setText("");
-                txtContactNumber.setText("");
-                txtAddress.setText("");
-            }
-            
-        } catch (RemoteException ex) {
-            Logger.getLogger(editDriver.class.getName()).log(Level.SEVERE, null, ex);
-        } catch ( NullPointerException ex1 ) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid Email address!\n"+ex1.getLocalizedMessage(), "Error!", 2);
-        } catch ( EmailNullValueException ex2 ) {
-             JOptionPane.showMessageDialog(this, ex2.getLocalizedMessage(), "Error!", 2);
-        }
-    }//GEN-LAST:event_btnSearchActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // Terminate current window and retruning to the home window
+        //btnCancel.addActionListener(new TerminateEventHandler());
+        new adminHome().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        try {
-            // To delete driver records
-            String seaEmail = "";
-            boolean subStatus = false;
-            
-            //Fetching textfield values
-            seaEmail = txtSeaEmail.getText();
-            
-            //Validating fetched vlaues
-            if ( seaEmail.trim().isEmpty() ) {
-                throw new EmailNullValueException();
-            }
-            
-            //Creating AFSRMIConnector object
-            AFSRMIConnector deleteDriver = new AFSRMIConnector();
-            subStatus = deleteDriver.afsconnector().deleteDriver(seaEmail);
-            
-            //Verifying whether the data is deleted in the database
-            if ( subStatus == true ) {
-                System.out.println("Values are successfully send to the server....");
-                JOptionPane.showMessageDialog(this, "Driver is successfully deleted!", "Status", 1);
-                txtSeaEmail.setText("");
-                txtName.setText("");
-                txtEmail.setText("");
-                txtAge.setText("");
-                txtContactNumber.setText("");
-                txtAddress.setText("");
-            } else {
-                JOptionPane.showMessageDialog(this, "Failed to delete Driver information!", "Error!", 2);
-            }
-        } catch (RemoteException ex) {
-            Logger.getLogger(editDriver.class.getName()).log(Level.SEVERE, null, ex);
-        } catch ( EmailNullValueException ex1 ) {
-             JOptionPane.showMessageDialog(this, ex1.getLocalizedMessage(), "Error!", 2);
-        }
-    }//GEN-LAST:event_btnDeleteActionPerformed
+    private void btnLogout3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogout3MouseClicked
+        // To Logout from the system
+        adminSessionManagement.resetCookie();
+        new adminLogin().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLogout3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -487,6 +519,7 @@ public class editDriver extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JLabel btnLogout3;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdateDrv;
     private javax.swing.JLabel jLabel1;

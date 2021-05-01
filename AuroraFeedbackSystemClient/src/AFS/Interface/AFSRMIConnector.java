@@ -8,8 +8,16 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * AFS RMI Connector Class
+ * @author Malindu Ransara Nawaarthne
+ */
 public class AFSRMIConnector {
     
+    /**
+     * Create connection between the server and the client
+     * @return the AFSRMI connection ( AFSInterface )
+     */
     public AFSInterface afsconnector () {
         try {
             AFSInterface conn = (AFSInterface) Naming.lookup("rmi://localhost/AFSServer2021"); 

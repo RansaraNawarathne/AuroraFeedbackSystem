@@ -1,4 +1,4 @@
-//Driver service layer
+
 package AFS.ServiceLayer;
 
 import AFS.DatabaseLayer.DatabaseConnection;
@@ -7,17 +7,25 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.ResultSetImpl;
 import com.mysql.jdbc.Statement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Driver Service Layer
+ * @author Malindu Ransara Nawarathne
+ */
 public class driverServiceLayer {
     private static Connection conn;
     private static PreparedStatement prst;
     private static Statement state;
     private static ResultSetImpl rsts;
     
+    /**
+     * Save driver vales in the database
+     * @param drv: Driver object
+     * @return the status of the process
+     */
     public static boolean saveDriver ( driver drv ) {
         try {
             boolean statusRes = false;
@@ -37,6 +45,11 @@ public class driverServiceLayer {
         return false;
     }
     
+    /**
+     * Search driver records in the database
+     * @param seaEmail: Email address of the driver
+     * @return the driver object found
+     */
     public static driver searchDriver ( String seaEmail ) {
         try {
             driver drv1 = null;
@@ -56,6 +69,12 @@ public class driverServiceLayer {
         return null;
     }
     
+    /**
+     * Update driver records
+     * @param seaEmail: Email address of the driver
+     * @param drv2: Driver object with updated data
+     * @return the status of the process
+     */
     public static boolean editDriver ( String seaEmail, driver drv2 ) {
         try {
             boolean statusRes = false;
@@ -74,6 +93,11 @@ public class driverServiceLayer {
         return false;
     }
     
+    /**
+     * Delete Driver Records
+     * @param seaEmail: Email address of the driver
+     * @return the status of the process
+     */
     public static boolean deleteDriver ( String seaEmail ) {
         try {
             boolean statusRes = false;

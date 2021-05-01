@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.ServiceLayer;
 
 import AFS.DatabaseLayer.DatabaseConnection;
@@ -14,13 +10,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author ransa
+ * Result Service Layer
+ * @author Malindu Ransara Nawarathne
  */
 public class resultServiceLayer {
     private static Connection conn;
     private static PreparedStatement prst;
     
+    /**
+     * Save customer responses in the database
+     * @param rsultObj: Result object Array
+     * @param invID: Invoice number
+     * @return the status of the process
+     */
     public static boolean saveResponse (result[] rsultObj, String invID ) {
         try {
             conn = DatabaseConnection.getInstance().getConnection();

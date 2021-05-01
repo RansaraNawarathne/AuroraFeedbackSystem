@@ -11,12 +11,21 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Analytic Service Layer
+ * @author Malindu Ransara Nawarathne
+ */
 public class analyticServiceLayer {
     private static Connection conn;
     private static Statement state;
     private static PreparedStatement prestate;
     private static ResultSetImpl rsts;
     
+    /**
+     * Retrieve analytic data
+     * @param qno: Question Number
+     * @return analytic object that contains analyzed data
+     */
     public static analytic retrieveAnalyticData (int qno) {
         try {
             conn = DatabaseConnection.getInstance().getConnection();
@@ -38,6 +47,10 @@ public class analyticServiceLayer {
         return null;
     }
     
+    /**
+     * Analyze customer responses that are stored in the database
+     * @return the status of the process
+     */
     public static boolean analyseProcess () {
         try {
             int q1 [] = new int [4];
@@ -100,6 +113,10 @@ public class analyticServiceLayer {
         return false;
     }
     
+    /**
+     * Analyze question 1 customer responses
+     * @return array of response counts
+     */
     public static int [] analyseQuestion1 () {
         try {
             int count[] = new int [4];
@@ -168,6 +185,10 @@ public class analyticServiceLayer {
         return null;
     }
     
+    /**
+    * Analyze question 2 customer responses
+     * @return array of response counts
+     */
     public static int [] analyseQuestion2 () {
         try {
             int count[] = new int [4];
@@ -249,6 +270,10 @@ public class analyticServiceLayer {
         return null;
     }
     
+    /**
+     * Analyze question 3 customer responses
+     * @return array of response counts
+     */
     public static int [] analyseQuestion3 () {
         try {
             int count[] = new int [2];
@@ -298,6 +323,10 @@ public class analyticServiceLayer {
         return null;
     }
     
+    /**
+     * Analyze question 4 customer responses
+     * @return array of response counts
+     */
     public static int [] analyseQuestion4 () {
         try {
             int count[] = new int [2];
@@ -347,6 +376,10 @@ public class analyticServiceLayer {
         return null;
     }
     
+    /**
+     * Analyze question 5 customer responses
+     * @return array of response counts
+     */
     public static int [] analyseQuestion5 () {
         try {
             int count[] = new int [2];
@@ -396,6 +429,10 @@ public class analyticServiceLayer {
         return null;
     }
     
+    /**
+     * Analyze question 6 customer responses
+     * @return array of response counts
+     */
     public static int [] analyseQuestion6 () {
         try {
             int count[] = new int [4];
@@ -477,6 +514,10 @@ public class analyticServiceLayer {
         return null;
     }
     
+    /**
+     * Analyze question 7 customer responses
+     * @return array of response counts
+     */
     public static int [] analyseQuestion7 () {
         try {
             int count[] = new int [4];
@@ -558,6 +599,10 @@ public class analyticServiceLayer {
         return null;
     }
     
+    /**
+     * Analyze question 8 customer responses
+     * @return array of response counts
+     */
     public static int [] analyseQuestion8 () {
         try {
             int count[] = new int [4];
@@ -639,6 +684,10 @@ public class analyticServiceLayer {
         return null;
     }
     
+    /**
+     * Analyze question 9 customer responses
+     * @return array of response counts
+     */
     public static int [] analyseQuestion9 () {
         try {
             int count[] = new int [4];
@@ -720,6 +769,10 @@ public class analyticServiceLayer {
         return null;
     }
     
+    /**
+     * Analyze question 10 customer responses
+     * @return array of response counts
+     */
     public static int [] analyseQuestion10 () {
         try {
             int count[] = new int [4];

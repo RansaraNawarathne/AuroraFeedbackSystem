@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AFS.FrontEnd;
 
-import AFS.Interface.AFSInterface;
 import AFS.Interface.AFSRMIConnector;
 import AFS.Models.result;
 import java.io.File;
@@ -16,16 +11,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author ransa
+ * Submit values to the server
+ * @author Malindu Ransara Nawarathne
  */
 public class submit extends javax.swing.JFrame {
 
@@ -34,6 +27,7 @@ public class submit extends javax.swing.JFrame {
      */
     public submit() {
         initComponents();
+        //To center the current window in the display
         this.setLocationRelativeTo(null);
     }
 
@@ -143,60 +137,61 @@ public class submit extends javax.swing.JFrame {
             // Reading Vlues form local files
             result[] resultObjArray = new result[10];
             FileInputStream localFileInpStr = null;
-            for ( int i = 1; i <= 10; i++ ) {
+            for (int i = 1; i <= 10; i++) {
                 try {
-                    localFileInpStr = new FileInputStream(new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\localResults\\ans"+i+".afs"));
+                    localFileInpStr = new FileInputStream(new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\localResults\\ans" + i + ".afs"));
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(submit.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 ObjectInputStream localInpStr = new ObjectInputStream(localFileInpStr);
                 result finalRes = (result) localInpStr.readObject();
-                resultObjArray [ i - 1] = finalRes;
+                resultObjArray[i - 1] = finalRes;
                 //Reset objects values
                 finalRes = null;
                 localInpStr = null;
                 localFileInpStr = null;
             }
-            
+
             //Reading Cookie value
-            localFileInpStr = new FileInputStream( new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\localResults\\userCookie.ckafs"));
+            localFileInpStr = new FileInputStream(new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\localResults\\userCookie.ckafs"));
             ObjectInputStream localInpStr = new ObjectInputStream(localFileInpStr);
             String tempCookie = "";
             tempCookie = (String) localInpStr.readObject();
             String invNo = "";
-            invNo = tempCookie.substring(0,7);
-            
-            for ( int x = 0; x < 10; x++ ) {
-                System.out.println("Question Number: "+resultObjArray[x].getQno());
-                System.out.println("Response: "+resultObjArray[x].getAnswer());
+            invNo = tempCookie.substring(0, 7);
+
+            //Testing purposes
+            for (int x = 0; x < 10; x++) {
+                System.out.println("Question Number: " + resultObjArray[x].getQno());
+                System.out.println("Response: " + resultObjArray[x].getAnswer());
             }
-            
+
             //Sending values to the server
             System.out.println("Starting submitting values to the server...");
-            //AFSInterface ansSet1 = (AFSInterface) Naming.lookup("rmi://localhost/AFSServer2021");
             AFSRMIConnector ansSet1 = new AFSRMIConnector();
             boolean SubStatus = false;
             SubStatus = ansSet1.afsconnector().getAnswer(resultObjArray, invNo);
-            if ( SubStatus == true ) {
+            if (SubStatus == true) {
                 System.out.println("Values are successfully send to the server....");
+                resetLocalFiles();
                 JOptionPane.showMessageDialog(this, "Responses are successfully saved!", "Status", 1);
             } else {
                 JOptionPane.showMessageDialog(this, "Failed to saved responses!", "Error!", 2);
             }
-            
+
             //Reset Cookie value
             tempCookie = "";
             try {
-            FileOutputStream filOut;
-            filOut = new FileOutputStream(new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\localResults\\userCookie.ckafs"));
-            ObjectOutputStream outStr = new ObjectOutputStream(filOut);
-            outStr.writeObject(tempCookie);
+                FileOutputStream filOut;
+                filOut = new FileOutputStream(new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\localResults\\userCookie.ckafs"));
+                ObjectOutputStream outStr = new ObjectOutputStream(filOut);
+                outStr.writeObject(tempCookie);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(customerLogin.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(customerLogin.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             new customerLogin().setVisible(true);
             this.dispose();
         } catch (MalformedURLException ex) {
@@ -215,6 +210,31 @@ public class submit extends javax.swing.JFrame {
         new question10().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    /**
+     * Reset local result stored files
+     */
+    public void resetLocalFiles() {
+        result res = null;
+        FileOutputStream FileOutStr = null;
+        for (int x = 1; x <= 10; x++) {
+            try {
+                FileOutStr = new FileOutputStream(new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\localResults\\ans"+x+".afs"));
+                ObjectOutputStream OutStr = new ObjectOutputStream(FileOutStr);
+                OutStr.writeObject(res);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    FileOutStr.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(question1.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
 
     /**
      * @param args the command line arguments
