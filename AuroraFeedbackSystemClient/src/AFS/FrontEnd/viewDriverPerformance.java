@@ -64,9 +64,7 @@ public class viewDriverPerformance extends javax.swing.JFrame {
                 2021. How to download Image from URL and save it in Java?. [online] Available at: <https://www.codercrunch.com/question/101501912/how-download-image-url-and-save-it-java>.
                      */
                     URL cUrl = new URL(charturl);
-                    System.out.println("Test1");
                     chartimg = ImageIO.read(cUrl);
-                    System.out.println("Test2");
                     ImageIO.write(chartimg, "png", new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\src\\AFS\\Resources\\Charts\\afsChart2.png"));
                     lstUpdate = lastUpdate();
                     /*
@@ -106,6 +104,7 @@ public class viewDriverPerformance extends javax.swing.JFrame {
         lblLastUpdate = new javax.swing.JLabel();
         btnMainMenu = new javax.swing.JButton();
         btnLogout3 = new javax.swing.JLabel();
+        comboBoxChartType = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -145,6 +144,9 @@ public class viewDriverPerformance extends javax.swing.JFrame {
             }
         });
 
+        comboBoxChartType.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        comboBoxChartType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bar", "Pie", "Doughnut" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -155,12 +157,14 @@ public class viewDriverPerformance extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(lblChart, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnGenerateChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(comboBoxQNum, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnMainMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(btnLogout3))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnGenerateChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(comboBoxQNum, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnMainMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(btnLogout3))
+                            .addComponent(comboBoxChartType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(45, 45, 45))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(lblLastUpdate)
@@ -178,6 +182,8 @@ public class viewDriverPerformance extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(comboBoxQNum, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(comboBoxChartType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnGenerateChart)
                         .addGap(18, 18, 18)
@@ -260,6 +266,7 @@ public class viewDriverPerformance extends javax.swing.JFrame {
         try {
             //Initalizing and declaring variables
             String charturl = "";
+            String chartType = "";
             String questionNum = "";
             String lstUpdate = "";
             boolean analyseStatus = false;
@@ -275,6 +282,7 @@ public class viewDriverPerformance extends javax.swing.JFrame {
                 //Fetching last update
                 lstUpdate = lastUpdate();
                 questionNum = comboBoxQNum.getSelectedItem().toString();
+                chartType = comboBoxChartType.getSelectedItem().toString().toLowerCase();
 
                 if (questionNum.compareTo("Question 2") == 0) {
                     qno = 2;
@@ -289,7 +297,7 @@ public class viewDriverPerformance extends javax.swing.JFrame {
                 }
                 
                 //Generating Chart URL
-                charturl = generateChart.afsconnector().createChart("bar", qno);
+                charturl = generateChart.afsconnector().createChart(chartType, qno);
                 System.out.println("Chart URL: " + charturl);
                 
                 /*
@@ -395,6 +403,7 @@ public class viewDriverPerformance extends javax.swing.JFrame {
     private javax.swing.JButton btnGenerateChart;
     private javax.swing.JLabel btnLogout3;
     private javax.swing.JButton btnMainMenu;
+    private javax.swing.JComboBox<String> comboBoxChartType;
     private javax.swing.JComboBox<String> comboBoxQNum;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

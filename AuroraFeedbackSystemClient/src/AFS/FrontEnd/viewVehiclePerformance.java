@@ -104,6 +104,7 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
         lblLastUpdate = new javax.swing.JLabel();
         btnMainMenu = new javax.swing.JButton();
         btnLogout3 = new javax.swing.JLabel();
+        comboBoxChartType = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -141,6 +142,9 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
             }
         });
 
+        comboBoxChartType.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        comboBoxChartType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bar", "Pie", "Doughnut" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -151,13 +155,15 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
                     .addComponent(lblLastUpdate)
                     .addComponent(lblChart, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(comboBoxQNum, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnGenerateChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnMainMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(btnLogout3))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(comboBoxQNum, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGenerateChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnMainMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnLogout3))
+                    .addComponent(comboBoxChartType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,10 +173,12 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(comboBoxQNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(comboBoxChartType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnGenerateChart)
                         .addGap(18, 18, 18)
                         .addComponent(btnMainMenu)
-                        .addGap(134, 134, 134)
+                        .addGap(96, 96, 96)
                         .addComponent(btnLogout3))
                     .addComponent(lblChart, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
@@ -262,6 +270,7 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
         try {
             //Initialising variables
             String charturl = "";
+            String chartType = "";
             String questionNum = "";
             String lstUpdate = "";
             boolean analyseStatus = false;
@@ -277,6 +286,7 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
                 //Fetching last update
                 lstUpdate = lastUpdate();
                 questionNum = comboBoxQNum.getSelectedItem().toString();
+                chartType = comboBoxChartType.getSelectedItem().toString().toLowerCase();
 
                 if (questionNum.compareTo("Question 7") == 0) {
                     qno = 7;
@@ -289,7 +299,7 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
                 }
                 
                 //Generating Chart URL
-                charturl = generateChart.afsconnector().createChart("bar", qno);
+                charturl = generateChart.afsconnector().createChart(chartType, qno);
                 System.out.println("Chart URL: " + charturl);
                 /*
             2021. How to download Image from URL and save it in Java?. [online] Available at: <https://www.codercrunch.com/question/101501912/how-download-image-url-and-save-it-java>.
@@ -383,6 +393,7 @@ public class viewVehiclePerformance extends javax.swing.JFrame {
     private javax.swing.JButton btnGenerateChart;
     private javax.swing.JLabel btnLogout3;
     private javax.swing.JButton btnMainMenu;
+    private javax.swing.JComboBox<String> comboBoxChartType;
     private javax.swing.JComboBox<String> comboBoxQNum;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
