@@ -271,6 +271,8 @@ public class addNewDriver extends javax.swing.JFrame {
             String name = "";
             String ageVal = "";
             String email = "";
+            int atIndex = 0;
+            int dotIndex = 0;
             String conNumVal = "";
             String address = "";
             int age = 0;
@@ -283,6 +285,8 @@ public class addNewDriver extends javax.swing.JFrame {
             email = txtEmail.getText();
             conNumVal = txtContactNumber.getText();
             address = txtAddress.getText();
+            atIndex = email.indexOf("@");
+            dotIndex = email.indexOf(".");
 
             //Validating fetched values
             if (name.trim().isEmpty()) {
@@ -295,7 +299,7 @@ public class addNewDriver extends javax.swing.JFrame {
             if ((age <= 18) || (age > 60)) {
                 throw new AgeOutOfBoundException();
             }
-            if (email.trim().isEmpty()) {
+            if ( ( email.trim().isEmpty() ) || ( atIndex <= 0 ) || ( dotIndex <= 0 ) ) {
                 throw new EmailNullValueException();
             }
             if ((conNumVal.trim().isEmpty()) || (conNumVal.length() != 10) ) {

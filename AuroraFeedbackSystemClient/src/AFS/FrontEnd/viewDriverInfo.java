@@ -288,13 +288,17 @@ public class viewDriverInfo extends javax.swing.JFrame {
         try {
             //Initializing and declaring variables and objects
             String seaEmail = "";
+            int SatIndex = 0;
+            int SdotIndex = 0;
             driver drv1 = null;
             
             //Fetching textfield values
             seaEmail = txtSeaEmaill.getText();
+            SatIndex = seaEmail.indexOf("@");
+            SdotIndex = seaEmail.indexOf(".");
             
             //Validating fetched values
-            if ( seaEmail.trim().isEmpty() ) {
+            if ( ( seaEmail.trim().isEmpty() ) || ( SatIndex <= 0 ) || ( SdotIndex <= 0 )  ) {
                throw new EmailNullValueException();
             }
             

@@ -391,6 +391,8 @@ public class editVehicle extends javax.swing.JFrame {
             String vehYOM = "";
             String name = "";
             String email = "";
+            int atIndex = 0;
+            int dotIndex = 0;
             String conNumber = "";
             String address = "";
             int cYear = 0;
@@ -413,6 +415,8 @@ public class editVehicle extends javax.swing.JFrame {
             email = txtEmail.getText();
             conNumber = txtConNum.getText();
             address = txtAddress.getText();
+            atIndex = email.indexOf("@");
+            dotIndex = email.indexOf(".");
             
             //Validating fetched textfield values
             if (seaVehNum.trim().isEmpty()) {
@@ -435,7 +439,7 @@ public class editVehicle extends javax.swing.JFrame {
             if (name.trim().isEmpty()) {
                 throw new NameNullValueException();
             }
-            if (email.trim().isEmpty()) {
+            if ( (email.trim().isEmpty() ) || ( atIndex <= 0 ) || ( dotIndex <= 0 ) ) {
                 throw new EmailNullValueException();
             }
             if (conNumber.trim().isEmpty() || (conNumber.length() != 10)) {

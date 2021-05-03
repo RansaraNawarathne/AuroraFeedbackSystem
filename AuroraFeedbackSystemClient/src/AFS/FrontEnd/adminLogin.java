@@ -4,6 +4,8 @@ package AFS.FrontEnd;
 import AFS.Interface.AFSRMIConnector;
 import AFS.Models.administrator;
 import AFS.ServiceLayer.adminSessionManagement;
+import AFS.Utilities.EmailNullValueException;
+import AFS.Utilities.PasswordInvalidException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -252,12 +254,24 @@ public class adminLogin extends javax.swing.JFrame {
             //Initializing and declaring variables
             String uname = "";
             String password = "";
+            int atIndex = 0;
+            int dotIndex = 0;
             String serverKey = "";
             boolean validationRes = false;
             
             //Fetching textfield values
             uname = txtEmail.getText();
             password = txtPassword.getText();
+            atIndex = uname.indexOf("@");
+            dotIndex = uname.indexOf(".");
+            
+            //Validaing fetching values
+            if ( ( uname.trim().isEmpty() ) || ( atIndex <= 0 ) || ( dotIndex <= 0 ) ) {
+                throw new EmailNullValueException();
+            }
+            if ( ( password.trim().isEmpty() ) || ( password.length()<8 ) ) {
+                throw new PasswordInvalidException();
+            }
             
             //Creating AFSRMINConnector object
             AFSRMIConnector adminValidating = new AFSRMIConnector();
@@ -276,6 +290,10 @@ public class adminLogin extends javax.swing.JFrame {
             }
         } catch (RemoteException ex) {
             Logger.getLogger(adminLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EmailNullValueException ex1 ) {
+            JOptionPane.showMessageDialog(this, ex1.getLocalizedMessage(), "Error!", 2);
+        } catch ( PasswordInvalidException ex2 ) {
+            JOptionPane.showMessageDialog(this, ex2.getLocalizedMessage(), "Error!", 2);
         }
         
     }//GEN-LAST:event_btnLoginActionPerformed

@@ -1,4 +1,3 @@
-
 package AFS.FrontEnd;
 
 import AFS.Interface.AFSRMIConnector;
@@ -16,6 +15,7 @@ import javax.swing.JOptionPane;
 
 /**
  * Customer Login GUI (JFrame)
+ *
  * @author Malindu Ransara Nawarathne
  */
 public class customerLogin extends javax.swing.JFrame {
@@ -237,41 +237,46 @@ public class customerLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            // To validate the user and to login o the system     
+        // To validate the user and to login o the system     
         try {
             //Initializing and declaring variables
             boolean finalVal = false;
             String invNo = "";
             String cookieVal = "";
-            
+            String baseVal = "";
+
             //Fetching textfield values
             invNo = txtInvoiceNum.getText();
-            
-            //Validating fetched values
-            if ( invNo.trim().isEmpty() ) {
+
+            //Validating fetched values            
+            if (invNo.trim().isEmpty()) {
                 throw new invoiceNullValueException();
             }
-            
+            baseVal = invNo.substring(0, 3);
+            if (baseVal.compareTo("afs") != 0) {
+                throw new invoiceNullValueException();
+            }
+
             //Creating AFSRMIConnector object
-            //AFSInterface userValidating = (AFSInterface) Naming.lookup("rmi://localhost/AFSServer2021");
-            AFSRMIConnector userValidating = new AFSRMIConnector();          
-            finalVal = userValidating.afsconnector().validateInvoiceNo (invNo);
+            AFSRMIConnector userValidating = new AFSRMIConnector();
+            finalVal = userValidating.afsconnector().validateInvoiceNo(invNo);
             System.out.println("Values are successfully send to the server....");
-            
+
             //Validating whether the values are validated
-            if ( finalVal == true ) {
-                System.out.println("Successfully Logged In!");      
+            if (finalVal == true) {
+                System.out.println("Successfully Logged In!");
                 cookieVal = userValidating.afsconnector().createCookie(invNo);
-                System.out.println("Cookie Value: "+cookieVal);
-                CreateCookie (cookieVal);
+                System.out.println("Cookie Value: " + cookieVal);
+                CreateCookie(cookieVal);
                 new question1().setVisible(true);
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Please Enter Valid Invoice Number!", "Error!", 2);
-                //txtInvoiceNum.setText("");
             }
         } catch (RemoteException ex) {
             Logger.getLogger(customerLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (invoiceNullValueException ex1 ) {
+            JOptionPane.showMessageDialog(this, ex1.getLocalizedMessage(), "Error!", 2);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -293,9 +298,10 @@ public class customerLogin extends javax.swing.JFrame {
 
     /**
      * Create Cookie
+     *
      * @param val: Invoice number
      */
-    public void CreateCookie (String val) {
+    public void CreateCookie(String val) {
         try {
             FileOutputStream filOut = null;
             filOut = new FileOutputStream(new File("D:\\NetBeans Workspaces\\Aurora Feedback System\\AuroraFeedbackSystemClient\\localResults\\userCookie.ckafs"));
@@ -307,6 +313,7 @@ public class customerLogin extends javax.swing.JFrame {
             Logger.getLogger(customerLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      * @param args the command line arguments
      */

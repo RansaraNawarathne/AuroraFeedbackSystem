@@ -317,6 +317,8 @@ public class addNewVehicle extends javax.swing.JFrame {
             String vehYOM = "";
             String name = "";
             String email = "";
+            int atIndex = 0;
+            int dotIndex = 0;
             String conNumber = "";
             String address = "";
             int cYear = 0;
@@ -338,6 +340,8 @@ public class addNewVehicle extends javax.swing.JFrame {
             email = txtEmail.getText();
             conNumber = txtConNumber.getText();
             address = txtAddress.getText();
+            atIndex = email.indexOf("@");
+            dotIndex = email.indexOf(".");
             
             //Validate fetched values
             if ( vehNumber.trim().isEmpty() ) {
@@ -357,7 +361,7 @@ public class addNewVehicle extends javax.swing.JFrame {
             if ( name.trim().isEmpty() ) {
                 throw new NameNullValueException();
             }
-            if ( email.trim().isEmpty() ) {
+            if ( ( email.trim().isEmpty() ) || ( atIndex <= 0 ) || ( dotIndex <= 0 ) ) {
                 throw new EmailNullValueException();
             }
             if ( conNumber.trim().isEmpty()  || ( conNumber.length() != 10) ) {

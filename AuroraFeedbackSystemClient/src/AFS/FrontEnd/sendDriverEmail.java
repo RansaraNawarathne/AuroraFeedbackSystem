@@ -4,10 +4,14 @@ package AFS.FrontEnd;
 import AFS.FrontEnd.EventHandlers.TerminateEventHandler;
 import AFS.Interface.AFSRMIConnector;
 import AFS.ServiceLayer.adminSessionManagement;
+import AFS.Utilities.EmailNullValueException;
+import AFS.Utilities.MessageNullValueException;
+import AFS.Utilities.SubjectNullValueException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * Send Email GUI (JFrame)
@@ -130,9 +134,9 @@ public class sendDriverEmail extends javax.swing.JFrame {
                         .addGap(107, 107, 107)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2))
+                        .addComponent(jButton1))
                     .addComponent(txtRecEmail)
                     .addComponent(txtRecSubject)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE))
@@ -266,6 +270,19 @@ public class sendDriverEmail extends javax.swing.JFrame {
             String recEmail = txtRecEmail.getText();
             String resSub = txtRecSubject.getText();
             String resMsg = txtRecMsg.getText();
+            int atIndex = recEmail.indexOf("@");
+            int dotIndex = recEmail.indexOf(".");
+            
+            //Validating fetched values
+            if ( ( recEmail.trim().isEmpty() ) || ( atIndex <= 0 ) || ( dotIndex <= 0 ) ) {
+                throw new EmailNullValueException();
+            }
+            if ( resSub.trim().isEmpty() ) {
+                throw new SubjectNullValueException();
+            }
+            if ( resMsg.trim().isEmpty() ) {
+                throw new MessageNullValueException();
+            } 
             
             System.out.println("Starting submitting values to the server...");
             
@@ -277,6 +294,12 @@ public class sendDriverEmail extends javax.swing.JFrame {
             this.dispose();
         } catch (RemoteException ex) {
             Logger.getLogger(submit.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EmailNullValueException ex1) {
+            JOptionPane.showMessageDialog(this, ex1.getLocalizedMessage(), "Error!", 2);
+        } catch (SubjectNullValueException ex2) {
+            JOptionPane.showMessageDialog(this, ex2.getLocalizedMessage(), "Error!", 2);
+        } catch (MessageNullValueException ex3) {
+            JOptionPane.showMessageDialog(this, ex3.getLocalizedMessage(), "Error!", 2);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

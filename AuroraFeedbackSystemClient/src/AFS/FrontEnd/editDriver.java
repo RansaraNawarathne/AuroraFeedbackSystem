@@ -304,13 +304,17 @@ public class editDriver extends javax.swing.JFrame {
         try {
             // To delete driver records
             String seaEmail = "";
+            int SatIndex = 0;
+            int SdotIndex = 0;
             boolean subStatus = false;
 
             //Fetching textfield values
             seaEmail = txtSeaEmail.getText();
+            SatIndex = seaEmail.indexOf("@");
+            SdotIndex = seaEmail.indexOf(".");
 
             //Validating fetched vlaues
-            if ( seaEmail.trim().isEmpty() ) {
+            if ( ( seaEmail.trim().isEmpty() ) || ( SatIndex <= 0 ) || ( SdotIndex <= 0 ) ) {
                 throw new EmailNullValueException();
             }
 
@@ -342,13 +346,17 @@ public class editDriver extends javax.swing.JFrame {
         try {
             // To search driver
             String seaEmail = "";
+            int atIndex = 0;
+            int dotIndex = 0;
             driver drv1 = null;
 
             //Fetching textfield valus
             seaEmail = txtSeaEmail.getText();
+            atIndex = seaEmail.indexOf("@");
+            dotIndex = seaEmail.indexOf(".");
 
             //Validating fetched values
-            if (seaEmail.trim().isEmpty()) {
+            if ( (seaEmail.trim().isEmpty() ) || ( atIndex <= 0 ) || ( dotIndex <= 0 ) ) {
                 throw new EmailNullValueException();
             }
 
@@ -386,6 +394,10 @@ public class editDriver extends javax.swing.JFrame {
         // To update driver information
         try {
             String seaEmail = "";
+            int atIndex = 0;
+            int dotIndex = 0;
+            int SatIndex = 0;
+            int SdotIndex = 0;
             String name = "";
             String ageVal = "";
             String email = "";
@@ -402,9 +414,13 @@ public class editDriver extends javax.swing.JFrame {
             email = txtEmail.getText();
             conNumVal = txtContactNumber.getText();
             address = txtAddress.getText();
+            atIndex = email.indexOf("@");
+            dotIndex = email.indexOf(".");
+            SatIndex = seaEmail.indexOf("@");
+            SdotIndex = seaEmail.indexOf(".");
 
             //Validating fethced textfield values
-            if (seaEmail.trim().isEmpty()) {
+            if ( (seaEmail.trim().isEmpty() ) || ( SatIndex <= 0 ) || ( SdotIndex <= 0 ) ) {
                 throw new EmailNullValueException();
             }
             if (name.trim().isEmpty()) {
@@ -417,7 +433,7 @@ public class editDriver extends javax.swing.JFrame {
             if ((age <= 18) || (age > 60)) {
                 throw new AgeOutOfBoundException();
             }
-            if (email.trim().isEmpty()) {
+            if ( (email.trim().isEmpty() ) || ( atIndex <= 0 ) || ( dotIndex <= 0 ) ) {
                 throw new EmailNullValueException();
             }
             if ((conNumVal.trim().isEmpty()) || (conNumVal.length() != 10) ) {

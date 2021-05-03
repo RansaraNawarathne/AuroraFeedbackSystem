@@ -295,6 +295,7 @@ public class editReservation extends javax.swing.JFrame {
             String drvID = "";
             String vehID = "";
             reservation resv1 = null;
+            String baseVal = "";
 
             //Fetchiing textfield values
             seaInvNum = txtSeaInvNo.getText();
@@ -304,6 +305,10 @@ public class editReservation extends javax.swing.JFrame {
 
             //Validating fetched values
             if ( seaInvNum.trim().isEmpty() ) {
+                throw new invoiceNullValueException();
+            }
+            baseVal = seaInvNum.substring(0, 3);
+            if (baseVal.compareTo("afs") != 0) {
                 throw new invoiceNullValueException();
             }
             if (invID.trim().isEmpty()) {
@@ -353,12 +358,17 @@ public class editReservation extends javax.swing.JFrame {
             //Initializing and declaring variables and objects
             String seaInvNum = "";
             reservation resv2 = null;
+            String baseVal = "";
             
             //Fetching textfield values
             seaInvNum = txtSeaInvNo.getText();
             
             //Validating fetched values
             if ( seaInvNum.trim().isEmpty() ) {
+                throw new invoiceNullValueException();
+            }
+            baseVal = seaInvNum.substring(0, 3);
+            if (baseVal.compareTo("afs") != 0) {
                 throw new invoiceNullValueException();
             }
             
@@ -390,12 +400,17 @@ public class editReservation extends javax.swing.JFrame {
             //Initializing and declaring variables
             String seaInvNum = "";
             boolean subStatus = false;
+            String baseVal = "";
             
             //Fetching textfield values
             seaInvNum = txtSeaInvNo.getText();
             
             //Validating fetched values
             if ( seaInvNum.trim().isEmpty() ) {
+                throw new invoiceNullValueException();
+            }
+            baseVal = seaInvNum.substring(0, 3);
+            if (baseVal.compareTo("afs") != 0) {
                 throw new invoiceNullValueException();
             }
             

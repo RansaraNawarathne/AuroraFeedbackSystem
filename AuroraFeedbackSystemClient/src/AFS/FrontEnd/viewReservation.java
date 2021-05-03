@@ -267,12 +267,17 @@ public class viewReservation extends javax.swing.JFrame {
             // To search reservation:
             String seaInvNum = "";
             reservation resv2 = null;
+            String baseVal = "";
             
             //Fetching textfield values
             seaInvNum = txtSeaInvNum.getText();
             
             //Validating fetched values
             if ( seaInvNum.trim().isEmpty() ) {
+                throw new invoiceNullValueException();
+            }
+            baseVal = seaInvNum.substring(0, 3);
+            if (baseVal.compareTo("afs") != 0) {
                 throw new invoiceNullValueException();
             }
             
