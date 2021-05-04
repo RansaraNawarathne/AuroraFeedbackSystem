@@ -94,7 +94,7 @@ public class adminHome extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AFS/Resources/pexels-johannes-rapprich-769892withText.jpg"))); // NOI18N
 
         btnViewDrvPerformance.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnViewDrvPerformance.setText("View Driver Performance");
+        btnViewDrvPerformance.setText("View Driver Analytics");
         btnViewDrvPerformance.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnViewDrvPerformanceActionPerformed(evt);
@@ -102,7 +102,7 @@ public class adminHome extends javax.swing.JFrame {
         });
 
         btnViewVehPerformance.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnViewVehPerformance.setText("View Vehicle Performance");
+        btnViewVehPerformance.setText("View Vehicle Analytics");
         btnViewVehPerformance.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnViewVehPerformanceActionPerformed(evt);
@@ -183,7 +183,7 @@ public class adminHome extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(53, 58, 64));
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jButton1.setText("View Driver Performance");
+        jButton1.setText("View Driver Analytics");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -279,7 +279,7 @@ public class adminHome extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(53, 58, 64));
 
         jButton6.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jButton6.setText("View Vehicle Performance");
+        jButton6.setText("View Vehicle Analytics");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
