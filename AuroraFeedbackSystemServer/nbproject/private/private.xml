@@ -5,6 +5,7 @@
         <group>
             <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/Server/AFSImplementation.java</file>
             <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/Interface/AFSInterface.java</file>
+            <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/DatabaseLayer/DatabaseConnection.java</file>
             <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/Models/driver.java</file>
             <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/ServiceLayer/analyticServiceLayer.java</file>
             <file>file:/D:/NetBeans%20Workspaces/Aurora%20Feedback%20System/AuroraFeedbackSystemServer/src/AFS/ServiceLayer/AFSChartGenerator.java</file>
