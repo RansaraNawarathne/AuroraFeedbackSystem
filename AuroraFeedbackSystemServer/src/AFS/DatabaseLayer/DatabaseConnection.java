@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Database Connection Class
+ * Database Connection Class referenced from Ramesh Wijerathne
  * @author Malindu Ransara Nawarathne
  */
 public class DatabaseConnection {
