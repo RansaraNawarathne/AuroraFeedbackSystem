@@ -1,0 +1,5 @@
+AFS.DatabaseLayer
+AFS.Interface
+AFS.Models
+AFS.Server
+AFS.ServiceLayer
